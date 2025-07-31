@@ -37,14 +37,46 @@ This web application simulates a real-world job board system. Users can:
 ```bash
 src/
 
+job-board-platform/
+├── public/
+│   └── favicon.ico
+│   └── index.html
 │
-├── components/         # Reusable UI components (JobCard, FilterPanel, etc.)
-├── context/            # JobContext and provider
-├── pages/              # Page components (Home, JobDetails, Apply)
-├── services/           # API service (fetchJobs, etc.)
-├── styles/             # Tailwind configurations or additional styles
-├── App.jsx             # Main app component with routes
-└── main.jsx            # App entry point
+├── src/
+│   ├── assets/                  # Static assets (images, icons, logos)
+│   │   └── logo.svg
+│
+│   ├── components/              # Reusable UI components
+│   │   ├── JobCard.jsx
+│   │   ├── FilterPanel.jsx
+│   │   ├── LoadingSpinner.jsx
+│   │   └── Navbar.jsx
+│
+│   ├── context/                 # Context API files
+│   │   └── JobContext.jsx
+│
+│   ├── pages/                   # Page-level components
+│   │   ├── Home.jsx             # Job listings + filters
+│   │   ├── JobDetails.jsx       # Single job detail page
+│   │   └── Apply.jsx            # Job application form
+│
+│   ├── services/                # API calls
+│   │   └── jobService.js
+│
+│   ├── styles/                  # Custom styles or Tailwind config extensions
+│   │   └── globals.css
+│
+│   ├── App.jsx                  # Main app component with routes
+│   └── main.jsx                 # Entry point
+│
+├── .env                         # Environment variables
+├── .gitignore
+├── index.html                   # Root HTML file for Vite
+├── package.json
+├── postcss.config.js
+├── tailwind.config.js
+└── vite.config.js               # Vite-specific config
+
 ```
 
 ---
