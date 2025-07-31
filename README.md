@@ -34,7 +34,9 @@ This web application simulates a real-world job board system. Users can:
 
 ## 📂 Project Structure
 
+```bash
 src/
+
 │
 ├── components/         # Reusable UI components (JobCard, FilterPanel, etc.)
 ├── context/            # JobContext and provider
@@ -43,6 +45,7 @@ src/
 ├── styles/             # Tailwind configurations or additional styles
 ├── App.jsx             # Main app component with routes
 └── main.jsx            # App entry point
+```
 
 ---
 
