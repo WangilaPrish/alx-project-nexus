@@ -1,16 +1,9 @@
 import { createContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import type { Job } from '../../src/types';
 import { fetchJobs } from '../services/jobService';
 
-// Types
-export interface Job {
-    id: number;
-    title: string;
-    company: string;
-    location: string;
-    type: string;
-    experienceLevel: string;
-}
+export type { Job };
 
 interface Filters {
     category: string;

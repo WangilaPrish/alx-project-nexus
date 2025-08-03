@@ -1,4 +1,4 @@
-import { Job } from '../context/JobContext';
+import type { Job } from '../context/JobContext';
 
 export const fetchJobs = async (): Promise<Job[]> => {
   // Replace this with an actual API call later

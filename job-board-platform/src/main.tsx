@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Navbar from './components/NavBar';
 import App from './App';
 import { JobProvider } from './context/JobContext';
-import HeroSection from './components/HeroSection';
+
 
 const rootElement = document.getElementById('root');
 if (rootElement) {
@@ -14,7 +14,7 @@ if (rootElement) {
             <BrowserRouter>
                 <JobProvider>
                     <Navbar />
-                    <HeroSection />
+
                     <App />
                 </JobProvider>
             </BrowserRouter>
