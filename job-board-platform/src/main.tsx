@@ -3,15 +3,23 @@ import ReactDOM from 'react-dom/client';
 import '../src/styles/global.css';
 import { BrowserRouter } from 'react-router-dom';
 import Navbar from './components/NavBar';
+import App from './App';
+import { JobProvider } from './context/JobContext';
 import HeroSection from './components/HeroSection';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-        <BrowserRouter>
-
-            <Navbar />
-            <HeroSection />
-
-        </BrowserRouter>
-    </React.StrictMode>
-);
+const rootElement = document.getElementById('root');
+if (rootElement) {
+    ReactDOM.createRoot(rootElement).render(
+        <React.StrictMode>
+            <BrowserRouter>
+                <JobProvider>
+                    <Navbar />
+                    <HeroSection />
+                    <App />
+                </JobProvider>
+            </BrowserRouter>
+        </React.StrictMode>
+    );
+} else {
+    throw new Error("Root element not found");
+}
