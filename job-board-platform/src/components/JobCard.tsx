@@ -6,20 +6,34 @@ const JobCard = ({ job }: { job: Job }) => {
         <div className="p-6 bg-white rounded-lg shadow hover:shadow-md transition border">
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold text-gray-800">{job.title}</h3>
-                <span className="text-sm px-2 py-1 bg-blue-100 text-blue-600 rounded">{job.job_type}</span>
+                <span className="text-sm px-2 py-1 bg-blue-100 text-blue-600 rounded">{job.type}</span>
             </div>
 
-            <p className="text-gray-600 text-sm mb-2">{job.company_name}</p>
-            <p className="text-gray-500 text-sm">{job.location}</p>
+            <p className="text-gray-600 text-sm mb-1">{job.company}</p>
+            <p className="text-gray-500 text-sm mb-1">{job.location}</p>
+            {job.salary && <p className="text-gray-700 text-sm mb-2">💰 {job.salary}</p>}
+            {job.postedAt && <p className="text-gray-400 text-xs mb-2">Posted: {new Date(job.postedAt).toDateString()}</p>}
+
+            {job.description && (
+                <p className="text-gray-600 text-sm line-clamp-3 mb-4">
+                    {job.description}
+                </p>
+            )}
 
             <div className="mt-4 flex justify-between items-center">
-                <span className="text-sm text-gray-400">{job.experience}</span>
-                <Link
-                    to={`/jobs/${job.id}`}
-                    className="text-blue-600 hover:underline text-sm font-medium"
-                >
-                    View Details
-                </Link>
+                <span className="text-sm text-gray-400">{job.experienceLevel}</span>
+                {job.applyLink ? (
+                    <a
+                        href={job.applyLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline text-sm font-medium"
+                    >
+                        Apply Now
+                    </a>
+                ) : (
+                    <span className="text-gray-400 text-sm italic">No link</span>
+                )}
             </div>
         </div>
     );
