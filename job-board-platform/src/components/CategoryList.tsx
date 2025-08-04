@@ -5,7 +5,7 @@ const CategoryList = () => {
     const categories = [
         { icon: <Briefcase />, title: 'Software Developer', count: 121 },
         { icon: <Code />, title: 'Software Tester', count: 104 },
-        { icon: <PenTool />, title: 'UX Designer', count: 96, isHighlighted: true },
+        { icon: <PenTool />, title: 'UX Designer', count: 96 },
         { icon: <Users />, title: 'Project Manager', count: 78 },
         { icon: <Briefcase />, title: 'Graphic Designer', count: 58 },
         { icon: <Briefcase />, title: 'UI Designer', count: 64 },
@@ -22,7 +22,6 @@ const CategoryList = () => {
                         icon={cat.icon}
                         title={cat.title}
                         count={cat.count}
-                        isHighlighted={cat.isHighlighted}
                     />
                 ))}
             </div>

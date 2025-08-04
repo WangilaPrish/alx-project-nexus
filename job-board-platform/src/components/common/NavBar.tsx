@@ -10,13 +10,20 @@ const Navbar = () => {
                 </Link>
             </div>
 
-            {/* Optional Nav Links */}
-
-
             {/* Auth Buttons */}
             <div className="flex gap-4 items-center">
-                <button className="text-sm text-gray-600 hover:text-blue-600 transition">Sign In</button>
-                <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Register</button>
+                <Link
+                    to="/login"
+                    className="text-sm text-gray-600 hover:text-blue-600 transition"
+                >
+                    Sign In
+                </Link>
+                <Link
+                    to="/register"
+                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition text-sm"
+                >
+                    Register
+                </Link>
             </div>
         </nav>
     );

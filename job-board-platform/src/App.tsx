@@ -1,6 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from '../src/pages/Home';
 import JobsPage from './pages/JobsPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 //import JobDetails from './pages/JobDetails';
 //import Apply from './pages/Apply';
 
@@ -9,7 +11,8 @@ const App = () => {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/jobs" element={<JobsPage />} />
-
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
         </Routes>
     );
 };
