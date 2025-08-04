@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import type { Job } from '../types';
 import { fetchJobs } from '../services/jobService';
 
+
 interface Filters {
     category: string;
     location: string;
@@ -32,7 +33,8 @@ export const JobProvider = ({ children }: { children: ReactNode }) => {
     const getJobs = async () => {
         try {
             setLoading(true);
-            const data = await fetchJobs();
+            const data = await fetchJobs(); // ✅ Use the actual exported function name
+
             setJobs(data);
         } catch {
             setError('Failed to fetch jobs.');
