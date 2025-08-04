@@ -1,20 +1,16 @@
 import HeroSection from '../components/HeroSection';
 import CategoryList from '../components/CategoryList';
-import JobCard from '../components/JobCard';
+import JobList from '../components/JobList';
+
+import CategoryCard from '../components/CategoryCard';
 
 const Home = () => {
     return (
         <>
             <HeroSection />
             <CategoryList />
-            <JobCard job={{
-                id: 1,
-                title: 'Frontend Developer',
-                company: 'TechCorp',
-                location: 'Remote',
-                type: 'Full-time',
-                experienceLevel: 'Mid-Level',
-            }} />
+            <CategoryCard icon="🔥" title="Popular Jobs" count={10} />
+            <JobList />
 
         </>
     );

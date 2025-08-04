@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import { useContext } from 'react';
 import type { Job } from '../../src/types';
 import { fetchJobs } from '../services/jobService';
 
@@ -53,4 +54,13 @@ export const JobProvider = ({ children }: { children: ReactNode }) => {
             {children}
         </JobContext.Provider>
     );
+};
+
+// ✅ Custom hook to consume context
+export const useJobContext = () => {
+    const context = useContext(JobContext);
+    if (!context) {
+        throw new Error('useJobContext must be used within a JobProvider');
+    }
+    return context;
 };
