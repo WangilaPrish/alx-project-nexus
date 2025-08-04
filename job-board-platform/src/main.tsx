@@ -6,21 +6,24 @@ import Navbar from './components/common/NavBar';
 import Footer from './components/common/Footer';
 import App from './App';
 import { JobProvider } from './context/JobContext';
-
+import { AuthProvider } from './context/AuthContext';
 
 
 const rootElement = document.getElementById('root');
 if (rootElement) {
     ReactDOM.createRoot(rootElement).render(
         <React.StrictMode>
-            <BrowserRouter>
-                <JobProvider>
-                    <Navbar />
+            <AuthProvider>
 
-                    <App />
-                    <Footer />
-                </JobProvider>
-            </BrowserRouter>
+                <BrowserRouter>
+                    <JobProvider>
+                        <Navbar />
+
+                        <App />
+                        <Footer />
+                    </JobProvider>
+                </BrowserRouter>
+            </AuthProvider>
         </React.StrictMode>
     );
 } else {
