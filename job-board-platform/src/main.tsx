@@ -7,6 +7,7 @@ import App from './App';
 import { JobProvider } from './context/JobContext';
 
 
+
 const rootElement = document.getElementById('root');
 if (rootElement) {
     ReactDOM.createRoot(rootElement).render(

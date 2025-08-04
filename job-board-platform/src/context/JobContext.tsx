@@ -1,10 +1,7 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import { useContext } from 'react';
-import type { Job } from '../../src/types';
+import type { Job } from '../types';
 import { fetchJobs } from '../services/jobService';
-
-export type { Job };
 
 interface Filters {
     category: string;
@@ -46,7 +43,6 @@ export const JobProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         getJobs();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -56,7 +52,6 @@ export const JobProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-// ✅ Custom hook to consume context
 export const useJobContext = () => {
     const context = useContext(JobContext);
     if (!context) {
