@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '../src/styles/global.css';
 import { BrowserRouter } from 'react-router-dom';
-import Navbar from './components/NavBar';
+import Navbar from './components/common/NavBar';
+import Footer from './components/common/Footer';
 import App from './App';
 import { JobProvider } from './context/JobContext';
 
@@ -17,6 +18,7 @@ if (rootElement) {
                     <Navbar />
 
                     <App />
+                    <Footer />
                 </JobProvider>
             </BrowserRouter>
         </React.StrictMode>

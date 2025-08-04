@@ -1,4 +1,5 @@
 // src/pages/JobsPage.tsx
+
 import JobList from '../components/JobList';
 
 const JobsPage = () => {
