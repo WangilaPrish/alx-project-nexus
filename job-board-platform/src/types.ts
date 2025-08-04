@@ -1,8 +1,11 @@
 export interface Job {
-  id: number;
+  id: string;
   title: string;
-  company: string;
+  company_name: string;
   location: string;
-  type: string;
-  experienceLevel: string;
+  job_type: string;
+  category: string;
+  experience: string;
+  description: string;
+  apply_link: string;
 }
