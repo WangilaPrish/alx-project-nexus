@@ -4,9 +4,10 @@ import { useJobContext } from '../context/JobContext';
 interface JobListProps {
     limit?: number;
     random?: boolean;
+    showIntro?: boolean;
 }
 
-const JobList = ({ limit = 0, random = false }: JobListProps) => {
+const JobList = ({ limit = 0, random = false, showIntro = false }: JobListProps) => {
     const { jobs, loading, error } = useJobContext();
 
     if (loading) {
@@ -28,9 +29,22 @@ const JobList = ({ limit = 0, random = false }: JobListProps) => {
 
     return (
         <section className="py-16 px-4 sm:px-6 md:px-6 max-w-7xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">
-                Latest Job Openings
-            </h2>
+            {showIntro && (
+                <div className="text-center mb-10">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-3">
+                        Explore Fresh Job Opportunities
+                    </h2>
+                    <p className="text-gray-600 max-w-2xl mx-auto">
+                        We've handpicked a few listings to get you started. Discover something exciting and aligned with your goals.
+                    </p>
+                </div>
+            )}
+
+            {!showIntro && (
+                <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">
+                    Latest Job Openings
+                </h2>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {Array.isArray(displayedJobs) && displayedJobs.length > 0 ? (

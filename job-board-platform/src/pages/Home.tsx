@@ -8,7 +8,8 @@ const Home = () => {
             <HeroSection />
             <CategoryList />
             <hr style={{ borderColor: 'black', margin: '2rem 0' }} />
-            <JobList limit={3} random />
+            <JobList limit={3} random showIntro />
+
         </>
     );
 };
