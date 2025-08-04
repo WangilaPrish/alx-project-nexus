@@ -4,8 +4,10 @@ const Navbar = () => {
     return (
         <nav className="flex items-center justify-between px-6 md:px-12 py-4 bg-white shadow-sm w-full">
             {/* Logo */}
-            <div className="text-2xl font-bold text-blue-600">
-                <Link to="/">Opportuna</Link>
+            <div className="h-8 font-bold text-blue-600">
+                <Link to="/">
+                    <img src="src/assets/logo.png" alt="Logo" className="h-32 pb-16" />
+                </Link>
             </div>
 
             {/* Optional Nav Links */}
