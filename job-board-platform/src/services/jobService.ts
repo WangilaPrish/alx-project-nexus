@@ -23,13 +23,21 @@ export const fetchJobs = async (): Promise<Job[]> => {
         console.log('JSearch API result:', data);
 
         const jobs: Job[] = (data.data || []).map((job: any, index: number) => ({
-            id: job.job_id || index.toString(),
-            title: job.job_title || 'Untitled',
-            company: job.employer_name || 'Unknown Company',
-            location: job.job_city || 'Unspecified',
-            type: job.job_employment_type || 'Full-time',
-            experienceLevel: job.job_experience || 'Not specified',
+        id: job.job_id || index.toString(),
+        title: job.job_title || 'Untitled',
+        company: job.employer_name || 'Unknown Company',
+        location: `${job.job_city || ''}, ${job.job_country || ''}`.trim(),
+        type: job.job_employment_type || 'Full-time',
+        experienceLevel: job.job_experience || 'Not specified',
+        description: job.job_description || '',
+        applyLink: job.job_apply_link || '',
+        salary:
+            job.job_min_salary && job.job_max_salary
+            ? `${job.job_min_salary} - ${job.job_max_salary} ${job.job_salary_currency}`
+            : 'Not specified',
+        postedAt: job.job_posted_at_datetime_utc || '',
         }));
+
 
         return jobs;
     } catch (error) {
