@@ -9,12 +9,7 @@ const Navbar = () => {
             </div>
 
             {/* Optional Nav Links */}
-            <ul className="hidden lg:flex gap-6 text-gray-700 font-medium">
-                <li><Link to="/">Home</Link></li>
-                <li><a href="#">Find Job</a></li>
-                <li><a href="#">Company</a></li>
-                <li><a href="#">Create CV</a></li>
-            </ul>
+
 
             {/* Auth Buttons */}
             <div className="flex gap-4 items-center">
