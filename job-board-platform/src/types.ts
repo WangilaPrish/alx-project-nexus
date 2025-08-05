@@ -15,6 +15,5 @@ export interface JobListProps {
     random?: boolean;
     showIntro?: boolean;
     searchTerm?: string;
-    locationFilter?: string;
-    jobTypeFilter?: string;
+
 }
