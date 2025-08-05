@@ -1,15 +1,26 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import type { Job } from './../../src/types';
 
 const JobCard = ({ job }: { job: Job }) => {
     return (
-        <div className="p-6 bg-white rounded-lg shadow hover:shadow-md transition border">
+        <motion.div
+            whileHover={{ y: -5, boxShadow: '0px 10px 20px rgba(0,0,0,0.05)' }}
+            transition={{ type: 'spring', stiffness: 150 }}
+            className="flex flex-col justify-between h-full p-6 bg-white rounded-lg shadow border transition"
+        >
+
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold text-gray-800">{job.title}</h3>
                 {job.type && (
-                    <span className="text-sm px-2 py-1 bg-blue-100 text-blue-600 rounded">
+                    <motion.span
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.3, ease: 'easeOut' }}
+                        className="text-sm px-2 py-1 bg-blue-100 text-blue-600 rounded"
+                    >
                         {job.type}
-                    </span>
+                    </motion.span>
                 )}
             </div>
 
@@ -43,17 +54,19 @@ const JobCard = ({ job }: { job: Job }) => {
                 )}
 
                 {job.applyLink ? (
-                    <a
+                    <motion.a
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                         href={job.applyLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 hover:underline text-sm font-medium"
                     >
                         Apply Now
-                    </a>
+                    </motion.a>
                 ) : null}
             </div>
-        </div>
+        </motion.div>
     );
 };
 

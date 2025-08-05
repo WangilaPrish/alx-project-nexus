@@ -1,5 +1,6 @@
 import JobCard from './JobCard';
 import { useJobContext } from '../context/JobContext';
+import { motion } from 'framer-motion';
 
 interface JobListProps {
     limit?: number;
@@ -38,34 +39,70 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
         displayedJobs = filteredJobs.slice(0, limit);
     }
 
+    // Framer motion variants
+    const containerVariants = {
+        hidden: {},
+        visible: {
+            transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.2
+            }
+        }
+    };
+
+    const cardVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }
+    };
+
     return (
-        <section className="py-16 px-4 sm:px-6 md:px-6 max-w-7xl mx-auto">
+        <section className="py-12 px-4 sm:px-6 md:px-6 max-w-7xl mx-auto">
             {showIntro ? (
-                <div className="text-center mb-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="text-center mb-10"
+                >
                     <h2 className="text-2xl md:text-3xl font-bold mb-3">
                         Explore Fresh Job Opportunities
                     </h2>
                     <p className="text-gray-600 max-w-2xl mx-auto">
                         We've handpicked a few listings to get you started. Discover something exciting and aligned with your goals.
                     </p>
-                </div>
+                </motion.div>
             ) : (
-                <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">
-                    Latest Job Openings
-                </h2>
+                <motion.h2
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true }}
+                    className="text-2xl md:text-3xl font-bold mb-8 text-center"
+                >
+
+                </motion.h2>
             )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
                 {displayedJobs.length > 0 ? (
                     displayedJobs.map((job) => (
-                        <JobCard key={job.id ?? `${job.title}-${job.company}`} job={job} />
+                        <motion.div key={job.id ?? `${job.title}-${job.company}`} variants={cardVariants}>
+                            <JobCard job={job} />
+                        </motion.div>
                     ))
                 ) : (
                     <p className="col-span-full text-center text-gray-500">
                         No jobs found matching your search.
                     </p>
                 )}
-            </div>
+            </motion.div>
         </section>
     );
 };

@@ -7,7 +7,7 @@ const JobsPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
     return (
-        <main className="min-h-screen bg-gray-50 px-4 py-12">
+        <main className="min-h-screen bg-gray-50 px-4 py-22">
             <section className="max-w-4xl mx-auto mb-10">
                 <h1 className="text-3xl font-bold text-center mb-6">Find Your Next Opportunity</h1>
                 <input
