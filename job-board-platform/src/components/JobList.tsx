@@ -7,9 +7,18 @@ interface JobListProps {
     random?: boolean;
     showIntro?: boolean;
     searchTerm?: string;
+    locationFilter?: string;
+    jobTypeFilter?: string;
 }
 
-const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = '' }: JobListProps) => {
+const JobList = ({
+    limit = 0,
+    random = false,
+    showIntro = false,
+    searchTerm = '',
+    locationFilter = '',
+    jobTypeFilter = ''
+}: JobListProps) => {
     const { jobs, loading, error } = useJobContext();
 
     if (loading) {
@@ -20,18 +29,29 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
         return <p className="text-center text-red-500 py-8">{error}</p>;
     }
 
-    // Filter based on search term (if provided)
-    let filteredJobs = jobs;
-    if (searchTerm) {
-        const term = searchTerm.toLowerCase();
-        filteredJobs = jobs.filter((job) =>
-            [job.title, job.company, job.location].some((field) =>
-                field.toLowerCase().includes(term)
-            )
-        );
-    }
+    // Filter jobs
+    const filteredJobs = jobs.filter((job) => {
+        const matchesSearch = searchTerm
+            ? [job.title, job.company, job.location]
+                .filter(Boolean)
+                .some(field =>
+                    field.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+            : true;
 
-    // Apply randomization or limit
+        const matchesLocation = locationFilter
+            ? job.location?.toLowerCase().includes(locationFilter.toLowerCase())
+            : true;
+
+        const matchesType = jobTypeFilter
+            ? job.type?.toLowerCase().includes(jobTypeFilter.toLowerCase())
+            : true;
+
+        return matchesSearch && matchesLocation && matchesType;
+    });
+
+
+    // Apply random/limit
     let displayedJobs = filteredJobs;
     if (random && limit > 0 && filteredJobs.length >= limit) {
         displayedJobs = [...filteredJobs].sort(() => 0.5 - Math.random()).slice(0, limit);
@@ -39,7 +59,7 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
         displayedJobs = filteredJobs.slice(0, limit);
     }
 
-    // Framer motion variants
+    // Animation variants
     const containerVariants = {
         hidden: {},
         visible: {
@@ -80,7 +100,7 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
                     viewport={{ once: true }}
                     className="text-2xl md:text-3xl font-bold mb-8 text-center"
                 >
-
+                    Latest Job Openings
                 </motion.h2>
             )}
 
@@ -89,17 +109,21 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr"
             >
                 {displayedJobs.length > 0 ? (
                     displayedJobs.map((job) => (
-                        <motion.div key={job.id ?? `${job.title}-${job.company}`} variants={cardVariants}>
+                        <motion.div
+                            key={job.id ?? `${job.title}-${job.company}`}
+                            variants={cardVariants}
+                            className="h-full"
+                        >
                             <JobCard job={job} />
                         </motion.div>
                     ))
                 ) : (
                     <p className="col-span-full text-center text-gray-500">
-                        No jobs found matching your search.
+                        No jobs found matching your filters.
                     </p>
                 )}
             </motion.div>

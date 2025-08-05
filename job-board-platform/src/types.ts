@@ -10,3 +10,11 @@ export interface Job {
   salary?: string;
   postedAt?: string;
 }
+export interface JobListProps {
+    limit?: number;
+    random?: boolean;
+    showIntro?: boolean;
+    searchTerm?: string;
+    locationFilter?: string;
+    jobTypeFilter?: string;
+}
