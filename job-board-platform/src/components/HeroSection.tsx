@@ -44,7 +44,7 @@ const HeroSection = () => {
                             whileTap={{ scale: 0.95 }}
                             transition={{ type: 'spring', stiffness: 300 }}
                             onClick={handleJobseekerClick}
-                            className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                            className="px-6 py-2 cursor-pointer bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                         >
                             I'm a Jobseeker
                         </motion.button>
