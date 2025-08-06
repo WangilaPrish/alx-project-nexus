@@ -15,6 +15,9 @@ interface JobContextType {
     error: string;
     filters: Filters;
     setFilters: (filters: Filters) => void;
+    currentPage: number;
+    setCurrentPage: (page: number) => void;
+    jobsPerPage: number;
 }
 
 const JobContext = createContext<JobContextType | undefined>(undefined);
@@ -26,53 +29,6 @@ export const JobProvider = ({ children }: { children: ReactNode }) => {
         location: '',
         experience: '',
     });
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-
-    const getJobs = async () => {
-        try {
-            setLoading(true);
-            const data = await fetchJobs();
-            setJobs(data);
-        } catch {
-            setError('Failed to fetch jobs.');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        getJobs();
-    }, []);
-
-    return (
-        <JobContext.Provider value={{ jobs, loading, error, filters, setFilters }}>
-            {children}
-        </JobContext.Provider>
-    );
-};
-
-export const useJobContext = () => {
-    const context = useContext(JobContext);
-    if (!context) {
-        throw new Error('useJobContext must be used within a JobProvider');
-    }
-    return context;
-};
-interface JobContextType {
-    jobs: Job[];
-    loading: boolean;
-    error: string;
-    filters: Filters;
-    setFilters: (filters: Filters) => void;
-    currentPage: number;
-    setCurrentPage: (page: number) => void;
-    jobsPerPage: number;
-}
-
-export const JobProvider = ({ children }: { children: ReactNode }) => {
-    const [jobs, setJobs] = useState<Job[]>([]);
-    const [filters, setFilters] = useState<Filters>({ category: '', location: '', experience: '' });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -95,17 +51,27 @@ export const JobProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     return (
-        <JobContext.Provider value={{
-            jobs,
-            loading,
-            error,
-            filters,
-            setFilters,
-            currentPage,
-            setCurrentPage,
-            jobsPerPage
-        }}>
+        <JobContext.Provider
+            value={{
+                jobs,
+                loading,
+                error,
+                filters,
+                setFilters,
+                currentPage,
+                setCurrentPage,
+                jobsPerPage
+            }}
+        >
             {children}
         </JobContext.Provider>
     );
+};
+
+export const useJobContext = () => {
+    const context = useContext(JobContext);
+    if (!context) {
+        throw new Error('useJobContext must be used within a JobProvider');
+    }
+    return context;
 };
