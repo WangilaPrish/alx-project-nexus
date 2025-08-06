@@ -2,25 +2,19 @@ import JobCard from './JobCard';
 import { useJobContext } from '../context/JobContext';
 import { motion } from 'framer-motion';
 
-interface JobListProps {
+type JobListProps = {
     limit?: number;
     random?: boolean;
     showIntro?: boolean;
     searchTerm?: string;
-}
+};
 
 const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = '' }: JobListProps) => {
-    const { jobs, loading, error } = useJobContext();
+    const { jobs, loading, error, currentPage, setCurrentPage, jobsPerPage } = useJobContext();
 
-    if (loading) {
-        return <p className="text-center text-gray-500 py-8">Loading jobs...</p>;
-    }
+    if (loading) return <p className="text-center text-gray-500 py-8">Loading jobs...</p>;
+    if (error) return <p className="text-center text-red-500 py-8">{error}</p>;
 
-    if (error) {
-        return <p className="text-center text-red-500 py-8">{error}</p>;
-    }
-
-    // Filter based on search term (if provided)
     let filteredJobs = jobs;
     if (searchTerm) {
         const term = searchTerm.toLowerCase();
@@ -31,15 +25,13 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
         );
     }
 
-    // Apply randomization or limit
-    let displayedJobs = filteredJobs;
-    if (random && limit > 0 && filteredJobs.length >= limit) {
-        displayedJobs = [...filteredJobs].sort(() => 0.5 - Math.random()).slice(0, limit);
-    } else if (limit > 0) {
-        displayedJobs = filteredJobs.slice(0, limit);
-    }
+    // Pagination logic
+    const indexOfLastJob = currentPage * jobsPerPage;
+    const indexOfFirstJob = indexOfLastJob - jobsPerPage;
+    const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
 
-    // Framer motion variants
+    const totalPages = Math.ceil(filteredJobs.length / jobsPerPage);
+
     const containerVariants = {
         hidden: {},
         visible: {
@@ -52,7 +44,7 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
 
     const cardVariants = {
         hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }
+        visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.42, 0, 0.58, 1] } } // Use cubic-bezier array for ease
     };
 
     return (
@@ -65,9 +57,7 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
                     viewport={{ once: true }}
                     className="text-center mb-10"
                 >
-                    <h2 className="text-2xl md:text-3xl font-bold mb-3">
-                        Explore Fresh Job Opportunities
-                    </h2>
+                    <h2 className="text-2xl md:text-3xl font-bold mb-3">Explore Fresh Job Opportunities</h2>
                     <p className="text-gray-600 max-w-2xl mx-auto">
                         We've handpicked a few listings to get you started. Discover something exciting and aligned with your goals.
                     </p>
@@ -80,7 +70,7 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
                     viewport={{ once: true }}
                     className="text-2xl md:text-3xl font-bold mb-8 text-center"
                 >
-
+                    Latest Job Openings
                 </motion.h2>
             )}
 
@@ -91,9 +81,9 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
                 viewport={{ once: true }}
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-                {displayedJobs.length > 0 ? (
-                    displayedJobs.map((job) => (
-                        <motion.div key={job.id ?? `${job.title}-${job.company}`} variants={cardVariants}>
+                {currentJobs.length > 0 ? (
+                    currentJobs.map((job) => (
+                        <motion.div key={job.id} variants={cardVariants}>
                             <JobCard job={job} />
                         </motion.div>
                     ))
@@ -103,6 +93,20 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
                     </p>
                 )}
             </motion.div>
+
+            {/* Pagination controls */}
+            <div className="flex justify-center mt-10 space-x-2">
+                {Array.from({ length: totalPages }, (_, i) => (
+                    <button
+                        key={i + 1}
+                        onClick={() => setCurrentPage(i + 1)}
+                        className={`px-4 py-2 border rounded ${currentPage === i + 1 ? 'bg-blue-600 text-white' : 'bg-white text-gray-700'}`}
+                    >
+                        {i + 1}
+                    </button>
+                ))}
+
+            </div>
         </section>
     );
 };

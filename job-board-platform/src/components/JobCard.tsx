@@ -1,6 +1,5 @@
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import type { Job } from './../../src/types';
+import type { Job } from '../types';
 
 const JobCard = ({ job }: { job: Job }) => {
     return (
@@ -9,7 +8,6 @@ const JobCard = ({ job }: { job: Job }) => {
             transition={{ type: 'spring', stiffness: 150 }}
             className="flex flex-col justify-between h-full p-6 bg-white rounded-lg shadow border transition"
         >
-
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold text-gray-800">{job.title}</h3>
                 {job.type && (
@@ -24,36 +22,21 @@ const JobCard = ({ job }: { job: Job }) => {
                 )}
             </div>
 
-            {job.company && (
-                <p className="text-gray-600 text-sm mb-1">{job.company}</p>
-            )}
-
-            {job.location && (
-                <p className="text-gray-500 text-sm mb-1">{job.location}</p>
-            )}
-
-            {job.salary && (
-                <p className="text-gray-700 text-sm mb-2">💰 {job.salary}</p>
-            )}
-
+            {job.company && <p className="text-gray-600 text-sm mb-1">{job.company}</p>}
+            {job.location && <p className="text-gray-500 text-sm mb-1">{job.location}</p>}
+            {job.salary && <p className="text-gray-700 text-sm mb-2">💰 {job.salary}</p>}
             {job.postedAt && (
-                <p className="text-gray-400 text-xs mb-2">
-                    Posted: {new Date(job.postedAt).toDateString()}
-                </p>
+                <p className="text-gray-400 text-xs mb-2">Posted: {new Date(job.postedAt).toDateString()}</p>
             )}
-
             {job.description && (
-                <p className="text-gray-600 text-sm line-clamp-3 mb-4">
-                    {job.description}
-                </p>
+                <p className="text-gray-600 text-sm line-clamp-3 mb-4">{job.description}</p>
             )}
 
             <div className="mt-4 flex justify-between items-center">
                 {job.experienceLevel && (
                     <span className="text-sm text-gray-400">{job.experienceLevel}</span>
                 )}
-
-                {job.applyLink ? (
+                {job.applyLink && (
                     <motion.a
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -64,7 +47,7 @@ const JobCard = ({ job }: { job: Job }) => {
                     >
                         Apply Now
                     </motion.a>
-                ) : null}
+                )}
             </div>
         </motion.div>
     );
