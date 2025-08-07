@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import {
     FaCheckCircle,
@@ -247,44 +246,28 @@ const Contact = () => {
                     {/* Contact Form */}
                     <div className="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 p-8">
                         {/* Success Message */}
-                        <AnimatePresence>
-                            {success && (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.95 }}
-                                    className="mb-6 p-4 bg-green-50 border border-green-200 rounded-2xl flex items-center gap-3"
-                                >
-                                    <FaCheckCircle className="text-green-500 text-xl" />
-                                    <span className="text-green-700 font-medium">{success}</span>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                        {success && (
+                            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-2xl flex items-center gap-3">
+                                <FaCheckCircle className="text-green-500 text-xl" />
+                                <span className="text-green-700 font-medium">{success}</span>
+                            </div>
+                        )}
 
                         {/* Error Message */}
-                        <AnimatePresence>
-                            {error && (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.95 }}
-                                    className="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl flex items-center gap-3"
-                                >
-                                    <FaExclamationCircle className="text-red-500 text-xl" />
-                                    <div className="flex-1">
-                                        <span className="text-red-700 font-medium">{error}</span>
-                                        <motion.button
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.9 }}
-                                            onClick={() => setError('')}
-                                            className="ml-2 text-red-400 hover:text-red-600"
-                                        >
-                                            <HiX className="w-4 h-4" />
-                                        </motion.button>
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                        {error && (
+                            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl flex items-center gap-3">
+                                <FaExclamationCircle className="text-red-500 text-xl" />
+                                <div className="flex-1">
+                                    <span className="text-red-700 font-medium">{error}</span>
+                                    <button
+                                        onClick={() => setError('')}
+                                        className="ml-2 text-red-400 hover:text-red-600 hover:scale-110 transition-all duration-200"
+                                    >
+                                        <HiX className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
 
                         <form onSubmit={handleSubmit} className="space-y-6">
                             {/* Name Input */}
@@ -407,23 +390,17 @@ const Contact = () => {
                             </div>
 
                             {/* Submit Button */}
-                            <motion.button
+                            <button
                                 type="submit"
                                 disabled={isLoading || Object.values(errors).some(error => error !== '')}
-                                whileHover={{ scale: isLoading ? 1 : 1.02 }}
-                                whileTap={{ scale: isLoading ? 1 : 0.98 }}
-                                className={`w-full py-4 rounded-2xl font-semibold text-white transition-all flex items-center justify-center gap-2 ${isLoading || Object.values(errors).some(error => error !== '')
+                                className={`w-full py-4 rounded-2xl font-semibold text-white transition-all flex items-center justify-center gap-2 hover:scale-105 ${isLoading || Object.values(errors).some(error => error !== '')
                                     ? 'bg-gray-400 cursor-not-allowed'
                                     : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl'
                                     }`}
                             >
                                 {isLoading ? (
                                     <>
-                                        <motion.div
-                                            animate={{ rotate: 360 }}
-                                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                            className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                                        />
+                                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                                         Sending Message...
                                     </>
                                 ) : (
@@ -432,7 +409,7 @@ const Contact = () => {
                                         Send Message
                                     </>
                                 )}
-                            </motion.button>
+                            </button>
                         </form>
                     </div>
                 </div>

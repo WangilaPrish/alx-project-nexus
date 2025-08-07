@@ -36,22 +36,15 @@ const JobCard = ({ job }: { job: Job }) => {
     };
 
     return (
-        <motion.div
-            whileHover={{ y: -5, boxShadow: '0px 10px 20px rgba(0,0,0,0.05)' }}
-            transition={{ type: 'spring', stiffness: 150 }}
-            className="flex flex-col justify-between h-full p-6 bg-white rounded-lg shadow border transition"
-        >
+        <div className="flex flex-col justify-between h-full p-6 bg-white rounded-lg shadow border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold text-gray-800">{job.title}</h3>
                 {job.type && (
-                    <motion.span
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.3, ease: 'easeOut' }}
+                    <span
                         className="text-sm px-2 py-1 bg-blue-100 text-blue-600 rounded"
                     >
                         {job.type}
-                    </motion.span>
+                    </span>
                 )}
             </div>
 
@@ -72,26 +65,22 @@ const JobCard = ({ job }: { job: Job }) => {
 
                 <div className="flex gap-2">
                     {job.applyLink && (
-                        <motion.a
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                        <a
                             href={job.applyLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1"
+                            className="text-blue-600 hover:text-blue-800 hover:scale-105 text-sm font-medium flex items-center gap-1 transition-all duration-200"
                             title="Apply on external website"
                         >
                             <HiExternalLink className="w-3 h-3" />
                             External
-                        </motion.a>
+                        </a>
                     )}
 
-                    <motion.button
-                        whileHover={{ scale: isApplied ? 1 : 1.05 }}
-                        whileTap={{ scale: isApplied ? 1 : 0.95 }}
+                    <button
                         onClick={handleApply}
                         disabled={isApplying || isApplied}
-                        className={`text-sm font-medium px-3 py-1 rounded transition flex items-center gap-1 ${isApplied
+                        className={`text-sm font-medium px-3 py-1 rounded transition-all duration-200 flex items-center gap-1 hover:scale-105 ${isApplied
                                 ? 'bg-green-100 text-green-700 cursor-default'
                                 : showSuccess
                                     ? 'bg-green-500 text-white'
