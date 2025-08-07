@@ -172,13 +172,7 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
                     className="text-center mb-12"
                 >
                     <div className="relative">
-                        <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                            className="absolute -top-4 left-1/2 transform -translate-x-1/2"
-                        >
-                            <HiSparkles className="text-yellow-400 text-2xl" />
-                        </motion.div>
+
                         <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                             Explore Fresh Job Opportunities
                         </h2>
@@ -240,8 +234,8 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
                             whileTap={{ scale: 0.95 }}
                             onClick={() => setShowFilters(!showFilters)}
                             className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition ${showFilters
-                                    ? 'bg-blue-50 border-blue-200 text-blue-600'
-                                    : 'bg-white border-gray-300 text-gray-600 hover:bg-gray-50'
+                                ? 'bg-blue-50 border-blue-200 text-blue-600'
+                                : 'bg-white border-gray-300 text-gray-600 hover:bg-gray-50'
                                 }`}
                         >
                             <MdFilterList />
@@ -278,8 +272,8 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
                             whileTap={{ scale: 0.95 }}
                             onClick={() => setViewMode('grid')}
                             className={`p-2 rounded-lg transition ${viewMode === 'grid'
-                                    ? 'bg-blue-100 text-blue-600'
-                                    : 'text-gray-400 hover:text-gray-600'
+                                ? 'bg-blue-100 text-blue-600'
+                                : 'text-gray-400 hover:text-gray-600'
                                 }`}
                         >
                             <MdGridView />
@@ -289,8 +283,8 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
                             whileTap={{ scale: 0.95 }}
                             onClick={() => setViewMode('list')}
                             className={`p-2 rounded-lg transition ${viewMode === 'list'
-                                    ? 'bg-blue-100 text-blue-600'
-                                    : 'text-gray-400 hover:text-gray-600'
+                                ? 'bg-blue-100 text-blue-600'
+                                : 'text-gray-400 hover:text-gray-600'
                                 }`}
                         >
                             <MdViewList />
@@ -387,8 +381,8 @@ const JobList = ({ limit = 0, random = false, showIntro = false, searchTerm = ''
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => setCurrentPage(pageNum)}
                                     className={`px-4 py-2 rounded-lg border transition ${currentPage === pageNum
-                                            ? 'bg-blue-600 text-white border-blue-600 shadow-lg'
-                                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                                        ? 'bg-blue-600 text-white border-blue-600 shadow-lg'
+                                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                                         }`}
                                 >
                                     {pageNum}
