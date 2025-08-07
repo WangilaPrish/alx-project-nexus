@@ -522,16 +522,7 @@ const AppliedJobsPage = () => {
                             className="text-center py-16"
                         >
                             <div className="relative">
-                                <motion.div
-                                    animate={{ rotate: 360 }}
-                                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                                    className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full mx-auto mb-4"
-                                />
-                                <motion.div
-                                    animate={{ scale: [1, 1.1, 1] }}
-                                    transition={{ duration: 2, repeat: Infinity }}
-                                    className="absolute top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-blue-600 rounded-full opacity-20"
-                                />
+                                <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full mx-auto mb-4 animate-spin" />
                             </div>
                             <p className="text-lg text-gray-600 font-medium">Loading your applications...</p>
                         </motion.div>
@@ -562,13 +553,9 @@ const AppliedJobsPage = () => {
                             className="text-center py-16"
                         >
                             <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-white/20 max-w-md mx-auto">
-                                <motion.div
-                                    animate={{ y: [0, -10, 0] }}
-                                    transition={{ duration: 2, repeat: Infinity }}
-                                    className="text-gray-400 mb-6"
-                                >
+                                <div className="text-gray-400 mb-6">
                                     <HiOfficeBuilding className="w-20 h-20 mx-auto" />
-                                </motion.div>
+                                </div>
 
                                 <h3 className="text-2xl font-bold text-gray-900 mb-4">No Applications Found</h3>
                                 <p className="text-gray-600 mb-6 leading-relaxed">
@@ -578,11 +565,9 @@ const AppliedJobsPage = () => {
                                     }
                                 </p>
 
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
+                                <button
                                     onClick={() => setShowAddForm(true)}
-                                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg"
+                                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 hover:scale-105 transition-all duration-200 shadow-lg"
                                 >
                                     Add Your First Application
                                 </motion.button>
