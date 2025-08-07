@@ -63,47 +63,16 @@ const HeroSection = () => {
             {/* Background Elements */}
             <div className="absolute inset-0">
                 {/* Gradient Orbs */}
-                <motion.div
-                    className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"
-                    animate={{
-                        scale: [1, 1.1, 1],
-                        opacity: [0.3, 0.5, 0.3]
-                    }}
-                    transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                />
-                <motion.div
-                    className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full blur-3xl"
-                    animate={{
-                        scale: [1.1, 1, 1.1],
-                        opacity: [0.4, 0.2, 0.4]
-                    }}
-                    transition={{
-                        duration: 10,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 2
-                    }}
-                />
+                <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl opacity-30" />
+                <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full blur-3xl opacity-30" />
 
                 {/* Floating Icons */}
-                <motion.div
-                    className="absolute top-32 right-20 text-blue-400/30"
-                    animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
-                    transition={{ duration: 6, repeat: Infinity }}
-                >
+                <div className="absolute top-32 right-20 text-blue-400/30">
                     <HiSparkles className="w-8 h-8" />
-                </motion.div>
-                <motion.div
-                    className="absolute bottom-40 left-20 text-purple-400/30"
-                    animate={{ y: [0, -15, 0], rotate: [0, -10, 0] }}
-                    transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-                >
+                </div>
+                <div className="absolute bottom-40 left-20 text-purple-400/30">
                     <HiBriefcase className="w-6 h-6" />
-                </motion.div>
+                </div>
             </div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 min-h-screen flex items-center">
@@ -175,36 +144,30 @@ const HeroSection = () => {
                                         className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                     />
                                 </div>
-                                <motion.button
+                                <button
                                     type="submit"
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl"
+                                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 hover:scale-105 transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl"
                                 >
                                     <span>Search Jobs</span>
                                     <HiArrowRight className="w-4 h-4" />
-                                </motion.button>
+                                </button>
                             </form>
 
                             {/* Popular Categories */}
                             <div className="mt-6">
                                 <p className="text-sm text-gray-600 mb-3">Popular searches:</p>
                                 <div className="flex flex-wrap gap-2">
-                                    {popularCategories.map((category, index) => (
-                                        <motion.button
+                                    {popularCategories.map((category) => (
+                                        <button
                                             key={category}
-                                            initial={{ opacity: 0, scale: 0.8 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ delay: 0.8 + index * 0.1 }}
-                                            whileHover={{ scale: 1.05 }}
                                             onClick={() => {
                                                 setSearchTerm(category);
                                                 navigate(`/jobs?search=${category}`);
                                             }}
-                                            className="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-700 hover:text-blue-700 rounded-lg text-sm transition-all duration-200"
+                                            className="px-3 py-1 bg-gray-100 hover:bg-blue-100 hover:scale-105 text-gray-700 hover:text-blue-700 rounded-lg text-sm transition-all duration-200"
                                         >
                                             {category}
-                                        </motion.button>
+                                        </button>
                                     ))}
                                 </div>
                             </div>
@@ -217,24 +180,20 @@ const HeroSection = () => {
                             transition={{ duration: 0.6, delay: 0.8 }}
                             className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
                         >
-                            <motion.button
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                whileTap={{ scale: 0.95 }}
+                            <button
                                 onClick={handleJobseekerClick}
-                                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center gap-2 justify-center shadow-lg hover:shadow-xl"
+                                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 hover:scale-105 hover:-translate-y-1 transition-all duration-200 flex items-center gap-2 justify-center shadow-lg hover:shadow-xl"
                             >
                                 <HiBriefcase className="w-5 h-5" />
                                 Browse All Jobs
-                            </motion.button>
+                            </button>
 
-                            <motion.button
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="bg-white/80 backdrop-blur-sm text-gray-700 px-8 py-4 rounded-xl font-semibold hover:bg-white transition-all duration-200 flex items-center gap-2 justify-center shadow-lg hover:shadow-xl border border-gray-200"
+                            <button
+                                className="bg-white/80 backdrop-blur-sm text-gray-700 px-8 py-4 rounded-xl font-semibold hover:bg-white hover:scale-105 hover:-translate-y-1 transition-all duration-200 flex items-center gap-2 justify-center shadow-lg hover:shadow-xl border border-gray-200"
                             >
                                 <HiPlay className="w-4 h-4" />
                                 Watch Demo
-                            </motion.button>
+                            </button>
                         </motion.div>
 
                         {/* Stats */}
@@ -277,59 +236,22 @@ const HeroSection = () => {
                             <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-3xl blur-2xl scale-110" />
 
                             {/* Hero Image */}
-                            <motion.div
-                                animate={{
-                                    y: [0, -15, 0],
-                                    rotate: [0, 1, 0]
-                                }}
-                                transition={{
-                                    duration: 6,
-                                    repeat: Infinity,
-                                    ease: "easeInOut"
-                                }}
-                                className="relative z-10"
-                            >
+                            <div className="relative z-10">
                                 <img
                                     src={heroImg}
                                     alt="Find your dream job"
                                     className="w-full max-w-lg rounded-3xl shadow-2xl"
                                 />
-                            </motion.div>
+                            </div>
 
                             {/* Floating Cards */}
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0 }}
-                                animate={{
-                                    opacity: 1,
-                                    scale: 1,
-                                    y: [0, -10, 0]
-                                }}
-                                transition={{
-                                    opacity: { delay: 1.5, duration: 0.5 },
-                                    scale: { delay: 1.5, duration: 0.5 },
-                                    y: { duration: 4, repeat: Infinity, delay: 1 }
-                                }}
-                                className="absolute -top-4 -right-4 bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-xl border border-white/20"
-                            >
+                            <div className="absolute -top-4 -right-4 bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-xl border border-white/20">
 
-                            </motion.div>
+                            </div>
 
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0 }}
-                                animate={{
-                                    opacity: 1,
-                                    scale: 1,
-                                    y: [0, -8, 0]
-                                }}
-                                transition={{
-                                    opacity: { delay: 2, duration: 0.5 },
-                                    scale: { delay: 2, duration: 0.5 },
-                                    y: { duration: 5, repeat: Infinity, delay: 2 }
-                                }}
-                                className="absolute -bottom-6 -left-6 bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-xl border border-white/20"
-                            >
+                            <div className="absolute -bottom-6 -left-6 bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-xl border border-white/20">
 
-                            </motion.div>
+                            </div>
                         </div>
                     </motion.div>
                 </div>

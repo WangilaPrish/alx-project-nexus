@@ -69,25 +69,17 @@ const JobsPage = () => {
 
             {/* Hero Section */}
             <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
-                {/* Background Elements */}
+                {/* Background Elements - Simplified static gradients */}
                 <div className="absolute inset-0">
-                    <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-20 right-10 w-64 h-64 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"
-                    />
-                    <motion.div
-                        animate={{ rotate: -360 }}
-                        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                        className="absolute bottom-20 left-10 w-48 h-48 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full blur-3xl"
-                    />
+                    <div className="absolute top-20 right-10 w-64 h-64 bg-gradient-to-r from-blue-400/10 to-purple-400/10 rounded-full blur-3xl" />
+                    <div className="absolute bottom-20 left-10 w-48 h-48 bg-gradient-to-r from-purple-400/10 to-pink-400/10 rounded-full blur-3xl" />
                 </div>
 
                 <div className="max-w-7xl mx-auto text-center relative z-10">
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                        transition={{ duration: 0.4 }}
                         className="mb-8"
                     >
 
@@ -172,11 +164,9 @@ const JobsPage = () => {
 
                         {/* Advanced Filters Toggle */}
                         <div className="flex flex-wrap items-center justify-between gap-4">
-                            <motion.button
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
+                            <button
                                 onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-                                className="flex items-center gap-2 px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 text-blue-600 hover:bg-blue-50 hover:scale-[1.02] active:scale-[0.98] rounded-xl transition-all"
                             >
                                 <HiAdjustments className="w-4 h-4" />
                                 <span className="font-medium">Advanced Filters</span>
@@ -186,19 +176,15 @@ const JobsPage = () => {
                                 >
                                     <HiFilter className="w-4 h-4" />
                                 </motion.div>
-                            </motion.button>
+                            </button>
 
                             {hasActiveFilters && (
-                                <motion.button
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
+                                <button
                                     onClick={clearFilters}
-                                    className="text-sm px-4 py-2 text-red-600 hover:bg-red-50 rounded-xl transition-colors font-medium"
+                                    className="text-sm px-4 py-2 text-red-600 hover:bg-red-50 hover:scale-105 rounded-xl transition-all duration-200 font-medium"
                                 >
                                     Clear All Filters
-                                </motion.button>
+                                </button>
                             )}
                         </div>
 
