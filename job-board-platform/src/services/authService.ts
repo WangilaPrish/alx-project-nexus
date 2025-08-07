@@ -144,7 +144,7 @@ export const authService = {
         try {
             console.log('Attempting to connect to:', AUTH_ENDPOINTS.GOOGLE_AUTH);
             console.log('Sending data:', userData);
-            
+
             const response = await fetch(AUTH_ENDPOINTS.GOOGLE_AUTH, {
                 method: 'POST',
                 headers: {
