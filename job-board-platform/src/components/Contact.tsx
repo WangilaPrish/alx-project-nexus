@@ -161,36 +161,16 @@ const Contact = () => {
         <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50 relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0">
-                <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                    className="absolute top-20 right-10 w-80 h-80 bg-gradient-to-r from-blue-400/10 to-purple-400/10 rounded-full blur-3xl"
-                />
-                <motion.div
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
-                    className="absolute bottom-20 left-10 w-64 h-64 bg-gradient-to-r from-purple-400/10 to-pink-400/10 rounded-full blur-3xl"
-                />
+                <div className="absolute top-20 right-10 w-80 h-80 bg-gradient-to-r from-blue-400/10 to-purple-400/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-20 left-10 w-64 h-64 bg-gradient-to-r from-purple-400/10 to-pink-400/10 rounded-full blur-3xl" />
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
-                >
-                    <motion.div
-                        initial={{ scale: 0.8 }}
-                        whileInView={{ scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.1 }}
-                        className="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center"
-                    >
+                <div className="text-center mb-16">
+                    <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
                         <HiSparkles className="w-10 h-10 text-white" />
-                    </motion.div>
+                    </div>
 
                     <h2 className="text-4xl md:text-5xl font-bold mb-6">
                         <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -201,17 +181,11 @@ const Contact = () => {
                         Have questions about job opportunities or need support? We'd love to hear from you.
                         Reach out and let's start a conversation.
                     </p>
-                </motion.div>
+                </div>
 
                 <div className="grid lg:grid-cols-2 gap-16 items-start">
                     {/* Contact Information */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="space-y-8"
-                    >
+                    <div className="space-y-8">
                         <div>
                             <h3 className="text-2xl font-bold text-gray-900 mb-6">
                                 Let's Connect
@@ -224,12 +198,8 @@ const Contact = () => {
 
                         <div className="space-y-6">
                             {contactInfo.map((info, index) => (
-                                <motion.div
+                                <div
                                     key={index}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                                     className="flex items-start gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300"
                                 >
                                     <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
@@ -246,18 +216,12 @@ const Contact = () => {
                                             {info.description}
                                         </p>
                                     </div>
-                                </motion.div>
+                                </div>
                             ))}
                         </div>
 
                         {/* Social Stats */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.6 }}
-                            className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl p-6 text-white"
-                        >
+                        <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl p-6 text-white">
                             <h4 className="font-semibold text-lg mb-4">Why Choose Opportuna?</h4>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="text-center">
@@ -277,17 +241,11 @@ const Contact = () => {
                                     <div className="text-blue-100 text-sm">Success Rate</div>
                                 </div>
                             </div>
-                        </motion.div>
-                    </motion.div>
+                        </div>
+                    </div>
 
                     {/* Contact Form */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                        className="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 p-8"
-                    >
+                    <div className="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 p-8">
                         {/* Success Message */}
                         <AnimatePresence>
                             {success && (
@@ -352,14 +310,10 @@ const Contact = () => {
                                     )}
                                 </div>
                                 {errors.name && (
-                                    <motion.p
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="mt-2 text-sm text-red-600 flex items-center gap-1"
-                                    >
+                                    <p className="mt-2 text-sm text-red-600 flex items-center gap-1">
                                         <FaExclamationCircle className="w-3 h-3" />
                                         {errors.name}
-                                    </motion.p>
+                                    </p>
                                 )}
                             </div>
 
@@ -386,14 +340,10 @@ const Contact = () => {
                                     )}
                                 </div>
                                 {errors.email && (
-                                    <motion.p
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="mt-2 text-sm text-red-600 flex items-center gap-1"
-                                    >
+                                    <p className="mt-2 text-sm text-red-600 flex items-center gap-1">
                                         <FaExclamationCircle className="w-3 h-3" />
                                         {errors.email}
-                                    </motion.p>
+                                    </p>
                                 )}
                             </div>
 
@@ -420,14 +370,10 @@ const Contact = () => {
                                     )}
                                 </div>
                                 {errors.subject && (
-                                    <motion.p
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="mt-2 text-sm text-red-600 flex items-center gap-1"
-                                    >
+                                    <p className="mt-2 text-sm text-red-600 flex items-center gap-1">
                                         <FaExclamationCircle className="w-3 h-3" />
                                         {errors.subject}
-                                    </motion.p>
+                                    </p>
                                 )}
                             </div>
 
@@ -453,14 +399,10 @@ const Contact = () => {
                                     )}
                                 </div>
                                 {errors.message && (
-                                    <motion.p
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="mt-2 text-sm text-red-600 flex items-center gap-1"
-                                    >
+                                    <p className="mt-2 text-sm text-red-600 flex items-center gap-1">
                                         <FaExclamationCircle className="w-3 h-3" />
                                         {errors.message}
-                                    </motion.p>
+                                    </p>
                                 )}
                             </div>
 
@@ -492,7 +434,7 @@ const Contact = () => {
                                 )}
                             </motion.button>
                         </form>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>
