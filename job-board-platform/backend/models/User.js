@@ -53,7 +53,7 @@ class User {
             console.log('📝 Executing query with values:', values);
             const [result] = await pool.execute(query, values);
             console.log('✅ User created successfully with ID:', result.insertId);
-            
+
             return {
                 id: result.insertId,
                 name: this.name,
@@ -69,7 +69,7 @@ class User {
             console.error('❌ Error message:', error.message);
             console.error('❌ SQL state:', error.sqlState);
             console.error('❌ SQL message:', error.sqlMessage);
-            
+
             if (error.code === 'ER_DUP_ENTRY') {
                 throw new Error('Email already exists');
             }

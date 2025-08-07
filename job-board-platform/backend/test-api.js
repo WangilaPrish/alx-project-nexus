@@ -6,11 +6,11 @@ const API_BASE = 'http://localhost:5001/api';
 async function testRegistration() {
     try {
         console.log('🧪 Testing user registration...');
-        
+
         // Use timestamp to ensure unique email
         const timestamp = Date.now();
         const testEmail = `test${timestamp}@example.com`;
-        
+
         const response = await fetch(`${API_BASE}/auth/register`, {
             method: 'POST',
             headers: {
@@ -26,7 +26,7 @@ async function testRegistration() {
 
         const data = await response.json();
         console.log('📊 Registration Response:', data);
-        
+
         if (data.success) {
             console.log('✅ Registration successful!');
             console.log('👤 User:', data.data.user);
@@ -36,7 +36,7 @@ async function testRegistration() {
             console.log('❌ Registration failed:', data.message);
             return null;
         }
-        
+
     } catch (error) {
         console.error('💥 Test error:', error.message);
         return null;
@@ -46,9 +46,9 @@ async function testRegistration() {
 async function testLogin(email = null) {
     try {
         console.log('\n🧪 Testing user login...');
-        
+
         const loginEmail = email || 'test@example.com';
-        
+
         const response = await fetch(`${API_BASE}/auth/login`, {
             method: 'POST',
             headers: {
@@ -62,7 +62,7 @@ async function testLogin(email = null) {
 
         const data = await response.json();
         console.log('📊 Login Response:', data);
-        
+
         if (data.success) {
             console.log('✅ Login successful!');
             console.log('👤 User:', data.data.user);
@@ -70,7 +70,7 @@ async function testLogin(email = null) {
         } else {
             console.log('❌ Login failed:', data.message);
         }
-        
+
     } catch (error) {
         console.error('💥 Test error:', error.message);
     }
@@ -79,18 +79,18 @@ async function testLogin(email = null) {
 async function testHealthCheck() {
     try {
         console.log('\n🧪 Testing health check...');
-        
+
         const response = await fetch(`${API_BASE.replace('/api', '')}/health`);
         const data = await response.json();
-        
+
         console.log('📊 Health Response:', data);
-        
+
         if (data.success) {
             console.log('✅ Server is healthy!');
         } else {
             console.log('❌ Server health check failed');
         }
-        
+
     } catch (error) {
         console.error('💥 Health check error:', error.message);
     }
@@ -98,11 +98,11 @@ async function testHealthCheck() {
 
 async function runTests() {
     console.log('🚀 Starting API Tests...\n');
-    
+
     await testHealthCheck();
     const registeredEmail = await testRegistration();
     await testLogin(registeredEmail);
-    
+
     console.log('\n✨ Tests completed!');
 }
 
