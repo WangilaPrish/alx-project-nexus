@@ -6,14 +6,10 @@ import {
     HiFilter,
     HiLocationMarker,
     HiSearch,
-    HiSparkles,
     HiTrendingUp,
     HiUsers
 } from 'react-icons/hi';
 import { useSearchParams } from 'react-router-dom';
-import JobList from '../components/JobList';
-import Footer from '../components/common/Footer';
-import Navbar from '../components/common/NavBar';
 import { useJobContext } from '../context/JobContext';
 
 const JobsPage = () => {

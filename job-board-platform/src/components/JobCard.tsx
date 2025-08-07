@@ -80,10 +80,10 @@ const JobCard = ({ job }: { job: Job }) => {
                         onClick={handleApply}
                         disabled={isApplying || isApplied}
                         className={`text-sm font-medium px-3 py-1 rounded transition-all duration-200 flex items-center gap-1 hover:scale-105 ${isApplied
-                                ? 'bg-green-100 text-green-700 cursor-default'
-                                : showSuccess
-                                    ? 'bg-green-500 text-white'
-                                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                            ? 'bg-green-100 text-green-700 cursor-default'
+                            : showSuccess
+                                ? 'bg-green-500 text-white'
+                                : 'bg-blue-600 text-white hover:bg-blue-700'
                             }`}
                     >
                         {isApplying ? (
