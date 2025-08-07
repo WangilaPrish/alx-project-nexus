@@ -180,23 +180,17 @@ const AppliedJobsPage = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center bg-white/80 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-white/20"
                     >
-                        <motion.div
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                            className="mb-6"
-                        >
+                        <div className="mb-6">
                             <HiSparkles className="text-blue-500 text-4xl mx-auto" />
-                        </motion.div>
+                        </div>
                         <h1 className="text-3xl font-bold text-gray-900 mb-4">Please Sign In</h1>
                         <p className="text-gray-600 mb-6">You need to be signed in to view your applied jobs.</p>
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg"
+                        <button
+                            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 hover:scale-105 transition-all duration-200 shadow-lg"
                             onClick={() => window.location.href = '/login'}
                         >
                             Sign In to Continue
-                        </motion.button>
+                        </button>
                     </motion.div>
                 </div>
                 <Footer />
@@ -211,11 +205,7 @@ const AppliedJobsPage = () => {
             <section className="relative pt-24 pb-8 px-4 sm:px-6 lg:px-8 overflow-hidden">
                 {/* Background Elements */}
                 <div className="absolute inset-0">
-                    <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-20 right-10 w-64 h-64 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"
-                    />
+                    <div className="absolute top-20 right-10 w-64 h-64 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl" />
                 </div>
 
                 <div className="max-w-7xl mx-auto relative z-10">
