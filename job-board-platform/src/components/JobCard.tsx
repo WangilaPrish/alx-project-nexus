@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { HiCheck, HiExternalLink } from 'react-icons/hi';
 import { useAppliedJobs } from '../context/AppliedJobsContext';
@@ -97,10 +96,10 @@ const JobCard = ({ job }: { job: Job }) => {
                         ) : (
                             'Apply'
                         )}
-                    </motion.button>
+                    </button>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 };
 

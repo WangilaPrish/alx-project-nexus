@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import {
     HiArrowRight,
@@ -85,44 +84,22 @@ const HeroSection = () => {
 
                         {/* Main Heading */}
                         <div className="space-y-4">
-                            <motion.h1
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: 0.2 }}
-                                className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
-                            >
+                            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
                                 Find Your{' '}
-                                <motion.span
-                                    key={currentIndex}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -20 }}
-                                    transition={{ duration: 0.5 }}
-                                    className="block bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent bg-[length:200%_100%] animate-[gradient_3s_ease_infinite]"
-                                >
+                                <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
                                     {rotatingTexts[currentIndex]}
-                                </motion.span>
-                            </motion.h1>
+                                </span>
+                            </h1>
                         </div>
 
                         {/* Subtitle */}
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.4 }}
-                            className="text-lg md:text-xl text-gray-600 max-w-2xl leading-relaxed"
-                        >
+                        <p className="text-lg md:text-xl text-gray-600 max-w-2xl leading-relaxed">
                             Connect with top companies and discover opportunities that match your skills,
                             passion, and career goals. Your perfect job is just one search away.
-                        </motion.p>
+                        </p>
 
                         {/* Search Form */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.6 }}
-                            className="bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/20"
-                        >
+                        <div className="bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/20">
                             <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
                                 <div className="flex-1 relative">
                                     <HiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -171,15 +148,10 @@ const HeroSection = () => {
                                     ))}
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
 
                         {/* Action Buttons */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.8 }}
-                            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-                        >
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                             <button
                                 onClick={handleJobseekerClick}
                                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 hover:scale-105 hover:-translate-y-1 transition-all duration-200 flex items-center gap-2 justify-center shadow-lg hover:shadow-xl"
@@ -194,21 +166,13 @@ const HeroSection = () => {
                                 <HiPlay className="w-4 h-4" />
                                 Watch Demo
                             </button>
-                        </motion.div>
+                        </div>
 
                         {/* Stats */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 1 }}
-                            className="grid grid-cols-3 gap-8 pt-8"
-                        >
-                            {stats.map((stat, index) => (
-                                <motion.div
+                        <div className="grid grid-cols-3 gap-8 pt-8">
+                            {stats.map((stat) => (
+                                <div
                                     key={stat.label}
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 1.2 + index * 0.1 }}
                                     className="text-center"
                                 >
                                     <div className="flex justify-center mb-2">
@@ -218,18 +182,13 @@ const HeroSection = () => {
                                     </div>
                                     <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
                                     <div className="text-sm text-gray-600">{stat.label}</div>
-                                </motion.div>
+                                </div>
                             ))}
-                        </motion.div>
+                        </div>
                     </div>
 
                     {/* Right Content - Hero Image */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                        className="relative flex justify-center lg:justify-end"
-                    >
+                    <div className="relative flex justify-center lg:justify-end">
                         {/* Main Image Container */}
                         <div className="relative">
                             {/* Glow Effect */}
@@ -253,7 +212,7 @@ const HeroSection = () => {
 
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
 
