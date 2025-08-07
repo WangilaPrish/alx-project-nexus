@@ -119,7 +119,9 @@ const LoginPage = () => {
                     avatar: user.photoURL || ''
                 };
 
+                console.log('Sending user data to backend:', userData);
                 const authResult = await authService.googleAuth(userData);
+                console.log('Backend response:', authResult);
 
                 if (authResult.success) {
                     setSuccess('Login successful! Redirecting...');
@@ -127,6 +129,7 @@ const LoginPage = () => {
                         navigate('/');
                     }, 1500);
                 } else {
+                    console.error('Google auth failed:', authResult);
                     setError(authResult.message || 'Google login failed. Please try again.');
                 }
             } else {
@@ -134,7 +137,12 @@ const LoginPage = () => {
             }
         } catch (err) {
             console.error('Google login error:', err);
-            setError('Google login failed. Please try again.');
+            // More detailed error information
+            if (err && typeof err === 'object' && 'code' in err && 'message' in err) {
+                setError(`Google authentication failed: ${err.code} - ${err.message}`);
+            } else {
+                setError('Google login failed. Please try again.');
+            }
         } finally {
             setIsLoading(false);
         }

@@ -173,7 +173,9 @@ const RegisterPage = () => {
                     avatar: user.photoURL || ''
                 };
 
+                console.log('Sending user data to backend:', userData);
                 const authResult = await authService.googleAuth(userData);
+                console.log('Backend response:', authResult);
 
                 if (authResult.success) {
                     setSuccess('Registration successful! Redirecting...');
@@ -181,6 +183,7 @@ const RegisterPage = () => {
                         navigate('/');
                     }, 1500);
                 } else {
+                    console.error('Google auth failed:', authResult);
                     setError(authResult.message || 'Google registration failed. Please try again.');
                 }
             } else {
@@ -188,7 +191,12 @@ const RegisterPage = () => {
             }
         } catch (err) {
             console.error('Google registration error:', err);
-            setError('Google registration failed. Please try again.');
+            // More detailed error information
+            if (err && typeof err === 'object' && 'code' in err && 'message' in err) {
+                setError(`Google authentication failed: ${err.code} - ${err.message}`);
+            } else {
+                setError('Google registration failed. Please try again.');
+            }
         } finally {
             setIsLoading(false);
         }
