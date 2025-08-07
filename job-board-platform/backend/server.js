@@ -98,7 +98,7 @@ const startServer = async () => {
 
         // Find available port and start server
         const availablePort = await findAvailablePort(PORT);
-        
+
         // Start server
         app.listen(availablePort, () => {
             console.log(`🚀 Server running on port ${availablePort}`);
