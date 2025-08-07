@@ -160,12 +160,6 @@ const HeroSection = () => {
                                 Browse All Jobs
                             </button>
 
-                            <button
-                                className="bg-white/80 backdrop-blur-sm text-gray-700 px-8 py-4 rounded-xl font-semibold hover:bg-white hover:scale-105 hover:-translate-y-1 transition-all duration-200 flex items-center gap-2 justify-center shadow-lg hover:shadow-xl border border-gray-200"
-                            >
-                                <HiPlay className="w-4 h-4" />
-                                Watch Demo
-                            </button>
                         </div>
 
                         {/* Stats */}
