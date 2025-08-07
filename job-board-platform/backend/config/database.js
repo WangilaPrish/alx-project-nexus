@@ -34,6 +34,10 @@ const initializeTables = async () => {
     try {
         const connection = await pool.getConnection();
 
+        // Drop and recreate users table to ensure clean schema
+        console.log('🗑️ Dropping existing users table...');
+        await connection.execute('DROP TABLE IF EXISTS users');
+        
         // Create users table
         const createUsersTable = `
             CREATE TABLE IF NOT EXISTS users (

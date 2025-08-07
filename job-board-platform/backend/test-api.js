@@ -100,8 +100,8 @@ async function runTests() {
     console.log('🚀 Starting API Tests...\n');
     
     await testHealthCheck();
-    await testRegistration();
-    await testLogin();
+    const registeredEmail = await testRegistration();
+    await testLogin(registeredEmail);
     
     console.log('\n✨ Tests completed!');
 }

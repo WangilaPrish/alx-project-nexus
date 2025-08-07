@@ -20,7 +20,7 @@ const findAvailablePort = (port) => {
         const server = app.listen(port, () => {
             server.close(() => resolve(port));
         }).on('error', () => {
-            resolve(findAvailablePort(port + 1));
+            resolve(findAvailablePort(parseInt(port) + 1));
         });
     });
 };

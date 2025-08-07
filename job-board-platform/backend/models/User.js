@@ -17,10 +17,21 @@ class User {
     // Create a new user
     async save() {
         try {
+            console.log('🔧 Attempting to save user:', {
+                name: this.name,
+                email: this.email,
+                provider: this.provider,
+                provider_id: this.provider_id,
+                avatar: this.avatar,
+                is_verified: this.is_verified,
+                is_active: this.is_active
+            });
+
             // Hash password if it's email registration
             let hashedPassword = null;
             if (this.password && this.provider === 'email') {
                 hashedPassword = await bcrypt.hash(this.password, 12);
+                console.log('🔒 Password hashed successfully');
             }
 
             const query = `
@@ -39,7 +50,10 @@ class User {
                 this.is_active
             ];
 
+            console.log('📝 Executing query with values:', values);
             const [result] = await pool.execute(query, values);
+            console.log('✅ User created successfully with ID:', result.insertId);
+            
             return {
                 id: result.insertId,
                 name: this.name,
@@ -50,7 +64,12 @@ class User {
                 is_active: this.is_active
             };
         } catch (error) {
-            console.error('Error saving user:', error);
+            console.error('❌ Error saving user:', error);
+            console.error('❌ Error code:', error.code);
+            console.error('❌ Error message:', error.message);
+            console.error('❌ SQL state:', error.sqlState);
+            console.error('❌ SQL message:', error.sqlMessage);
+            
             if (error.code === 'ER_DUP_ENTRY') {
                 throw new Error('Email already exists');
             }
