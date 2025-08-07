@@ -193,6 +193,7 @@ const AppliedJobsPage = () => {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg"
+                            onClick={() => window.location.href = '/login'}
                         >
                             Sign In to Continue
                         </motion.button>
