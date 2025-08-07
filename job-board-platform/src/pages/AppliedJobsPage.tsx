@@ -570,7 +570,7 @@ const AppliedJobsPage = () => {
                                     className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 hover:scale-105 transition-all duration-200 shadow-lg"
                                 >
                                     Add Your First Application
-                                </motion.button>
+                                </button>
                             </div>
                         </motion.div>
                     ) : (
