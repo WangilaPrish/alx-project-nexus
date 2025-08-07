@@ -11,6 +11,17 @@ export interface Job {
     postedAt?: string;
 }
 
+export interface AppliedJob {
+    id: string;
+    jobId: string;
+    userId: string;
+    job: Job;
+    appliedAt: string;
+    applicationStatus: 'applied' | 'viewed' | 'interviewed' | 'rejected' | 'accepted';
+    externalUrl?: string; // For jobs applied on external websites
+    notes?: string;
+}
+
 export interface JobListProps {
     limit?: number;
     random?: boolean;

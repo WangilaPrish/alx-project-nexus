@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import '../src/styles/global.css';
 import { BrowserRouter } from 'react-router-dom';
-import Navbar from './components/common/NavBar';
-import Footer from './components/common/Footer';
+import '../src/styles/global.css';
 import App from './App';
-import { JobProvider } from './context/JobContext';
+import Footer from './components/common/Footer';
+import Navbar from './components/common/NavBar';
+import { AppliedJobsProvider } from './context/AppliedJobsContext';
 import { AuthProvider } from './context/AuthContext';
+import { JobProvider } from './context/JobContext';
 
 
 const rootElement = document.getElementById('root');
@@ -14,15 +15,16 @@ if (rootElement) {
     ReactDOM.createRoot(rootElement).render(
         <React.StrictMode>
             <AuthProvider>
+                <AppliedJobsProvider>
+                    <BrowserRouter>
+                        <JobProvider>
+                            <Navbar />
 
-                <BrowserRouter>
-                    <JobProvider>
-                        <Navbar />
-
-                        <App />
-                        <Footer />
-                    </JobProvider>
-                </BrowserRouter>
+                            <App />
+                            <Footer />
+                        </JobProvider>
+                    </BrowserRouter>
+                </AppliedJobsProvider>
             </AuthProvider>
         </React.StrictMode>
     );

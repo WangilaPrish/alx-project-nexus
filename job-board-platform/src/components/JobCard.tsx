@@ -1,7 +1,40 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { HiCheck, HiExternalLink } from 'react-icons/hi';
+import { useAppliedJobs } from '../context/AppliedJobsContext';
+import { useAuth } from '../context/AuthContext';
 import type { Job } from '../types';
 
 const JobCard = ({ job }: { job: Job }) => {
+    const { appliedJobs, applyToJob } = useAppliedJobs();
+    const { user } = useAuth();
+    const [isApplying, setIsApplying] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    const isApplied = appliedJobs.some(appliedJob => appliedJob.jobId === job.id);
+
+    const handleApply = async () => {
+        if (!user) {
+            alert('Please sign in to apply for jobs');
+            return;
+        }
+
+        if (isApplied) {
+            return;
+        }
+
+        try {
+            setIsApplying(true);
+            await applyToJob(job, job.applyLink);
+            setShowSuccess(true);
+            setTimeout(() => setShowSuccess(false), 2000);
+        } catch (error) {
+            alert(error instanceof Error ? error.message : 'Failed to apply to job');
+        } finally {
+            setIsApplying(false);
+        }
+    };
+
     return (
         <motion.div
             whileHover={{ y: -5, boxShadow: '0px 10px 20px rgba(0,0,0,0.05)' }}
@@ -36,18 +69,47 @@ const JobCard = ({ job }: { job: Job }) => {
                 {job.experienceLevel && (
                     <span className="text-sm text-gray-400">{job.experienceLevel}</span>
                 )}
-                {job.applyLink && (
-                    <motion.a
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        href={job.applyLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline text-sm font-medium"
+
+                <div className="flex gap-2">
+                    {job.applyLink && (
+                        <motion.a
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            href={job.applyLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center gap-1"
+                            title="Apply on external website"
+                        >
+                            <HiExternalLink className="w-3 h-3" />
+                            External
+                        </motion.a>
+                    )}
+
+                    <motion.button
+                        whileHover={{ scale: isApplied ? 1 : 1.05 }}
+                        whileTap={{ scale: isApplied ? 1 : 0.95 }}
+                        onClick={handleApply}
+                        disabled={isApplying || isApplied}
+                        className={`text-sm font-medium px-3 py-1 rounded transition flex items-center gap-1 ${isApplied
+                                ? 'bg-green-100 text-green-700 cursor-default'
+                                : showSuccess
+                                    ? 'bg-green-500 text-white'
+                                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                            }`}
                     >
-                        Apply Now
-                    </motion.a>
-                )}
+                        {isApplying ? (
+                            <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin" />
+                        ) : showSuccess || isApplied ? (
+                            <>
+                                <HiCheck className="w-3 h-3" />
+                                Applied
+                            </>
+                        ) : (
+                            'Apply'
+                        )}
+                    </motion.button>
+                </div>
             </div>
         </motion.div>
     );
