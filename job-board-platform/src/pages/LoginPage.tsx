@@ -13,14 +13,12 @@ import { FcGoogle } from 'react-icons/fc';
 import {
     HiArrowRight,
     HiLightningBolt,
-    HiSparkles,
     HiX
 } from 'react-icons/hi';
 import { HiShieldCheck } from 'react-icons/hi2';
 import { Link, useNavigate } from 'react-router-dom';
-import Footer from '../components/common/Footer';
-import Navbar from '../components/common/NavBar';
 import { auth, provider } from '../firebase/firebaseConfig';
+import { authService } from '../services/authService';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -86,16 +84,19 @@ const LoginPage = () => {
         setError('');
 
         try {
-            // Simulate login process - replace with actual Firebase email/password auth
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            const result = await authService.login({ email, password });
 
-            setSuccess('Login successful! Redirecting...');
-            setTimeout(() => {
-                navigate('/');
-            }, 1500);
-        } catch {
-            // Simulate error handling
-            setError('Invalid email or password. Please try again.');
+            if (result.success) {
+                setSuccess('Login successful! Redirecting...');
+                setTimeout(() => {
+                    navigate('/');
+                }, 1500);
+            } else {
+                setError(result.message || 'Invalid email or password. Please try again.');
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            setError('Login failed. Please check your connection and try again.');
         } finally {
             setIsLoading(false);
         }
@@ -110,16 +111,29 @@ const LoginPage = () => {
             const user = result.user;
 
             if (user) {
-                console.log('Logged in user:', user.email);
-                setSuccess('Login successful! Redirecting...');
-                setTimeout(() => {
-                    navigate('/');
-                }, 1500);
+                // Send user data to backend
+                const userData = {
+                    name: user.displayName || '',
+                    email: user.email || '',
+                    provider_id: user.uid,
+                    avatar: user.photoURL || ''
+                };
+
+                const authResult = await authService.googleAuth(userData);
+
+                if (authResult.success) {
+                    setSuccess('Login successful! Redirecting...');
+                    setTimeout(() => {
+                        navigate('/');
+                    }, 1500);
+                } else {
+                    setError(authResult.message || 'Google login failed. Please try again.');
+                }
             } else {
-                setError('Login failed. Please try again.');
+                setError('Google login failed. Please try again.');
             }
         } catch (err) {
-            console.error(err);
+            console.error('Google login error:', err);
             setError('Google login failed. Please try again.');
         } finally {
             setIsLoading(false);

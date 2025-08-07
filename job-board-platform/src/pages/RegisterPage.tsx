@@ -20,6 +20,7 @@ import {
 import { HiShieldCheck } from 'react-icons/hi2';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth, provider } from '../firebase/firebaseConfig';
+import { authService } from '../services/authService';
 
 const RegisterPage = () => {
     const [name, setName] = useState('');
@@ -132,16 +133,24 @@ const RegisterPage = () => {
         setError('');
 
         try {
-            // Simulate registration process - replace with actual Firebase createUserWithEmailAndPassword
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            const result = await authService.register({
+                name,
+                email,
+                password,
+                confirmPassword
+            });
 
-            setSuccess('Registration successful! Redirecting...');
-            setTimeout(() => {
-                navigate('/');
-            }, 1500);
-        } catch {
-            // Simulate error handling
-            setError('Registration failed. Please try again.');
+            if (result.success) {
+                setSuccess('Registration successful! Redirecting...');
+                setTimeout(() => {
+                    navigate('/');
+                }, 1500);
+            } else {
+                setError(result.message || 'Registration failed. Please try again.');
+            }
+        } catch (err) {
+            console.error('Registration error:', err);
+            setError('Registration failed. Please check your connection and try again.');
         } finally {
             setIsLoading(false);
         }
@@ -156,16 +165,29 @@ const RegisterPage = () => {
             const user = result.user;
 
             if (user) {
-                console.log('Registered user:', user.email);
-                setSuccess('Registration successful! Redirecting...');
-                setTimeout(() => {
-                    navigate('/');
-                }, 1500);
+                // Send user data to backend
+                const userData = {
+                    name: user.displayName || '',
+                    email: user.email || '',
+                    provider_id: user.uid,
+                    avatar: user.photoURL || ''
+                };
+
+                const authResult = await authService.googleAuth(userData);
+
+                if (authResult.success) {
+                    setSuccess('Registration successful! Redirecting...');
+                    setTimeout(() => {
+                        navigate('/');
+                    }, 1500);
+                } else {
+                    setError(authResult.message || 'Google registration failed. Please try again.');
+                }
             } else {
                 setError('Registration failed. Please try again.');
             }
         } catch (err) {
-            console.error(err);
+            console.error('Google registration error:', err);
             setError('Google registration failed. Please try again.');
         } finally {
             setIsLoading(false);

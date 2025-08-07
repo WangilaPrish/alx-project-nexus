@@ -10,10 +10,7 @@ const dbConfig = {
     database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0,
-    acquireTimeout: 60000,
-    timeout: 60000,
-    reconnect: true
+    queueLimit: 0
 };
 
 // Create connection pool
@@ -36,7 +33,31 @@ const testConnection = async () => {
 const initializeTables = async () => {
     try {
         const connection = await pool.getConnection();
-        
+
+        // Create users table
+        const createUsersTable = `
+            CREATE TABLE IF NOT EXISTS users (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                name VARCHAR(255) NOT NULL,
+                email VARCHAR(255) NOT NULL UNIQUE,
+                password VARCHAR(255) NULL,
+                provider ENUM('email', 'google') DEFAULT 'email',
+                provider_id VARCHAR(255) NULL,
+                avatar TEXT NULL,
+                is_verified BOOLEAN DEFAULT FALSE,
+                is_active BOOLEAN DEFAULT TRUE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                INDEX idx_email (email),
+                INDEX idx_provider (provider),
+                INDEX idx_provider_id (provider_id),
+                INDEX idx_is_active (is_active)
+            )
+        `;
+
+        await connection.execute(createUsersTable);
+        console.log('✅ Users table initialized successfully');
+
         // Create contacts table
         const createContactsTable = `
             CREATE TABLE IF NOT EXISTS contacts (
@@ -55,10 +76,10 @@ const initializeTables = async () => {
                 INDEX idx_created_at (created_at)
             )
         `;
-        
+
         await connection.execute(createContactsTable);
         console.log('✅ Contacts table initialized successfully');
-        
+
         connection.release();
     } catch (error) {
         console.error('❌ Failed to initialize tables:', error.message);
