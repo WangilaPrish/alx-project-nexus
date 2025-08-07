@@ -196,33 +196,25 @@ const RegisterPage = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
-            {/* Background Elements */}
+            {/* Background Elements - Simplified static gradients */}
             <div className="absolute inset-0 overflow-hidden">
-                <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                    className="absolute top-20 right-10 w-64 h-64 bg-gradient-to-r from-purple-400/20 to-blue-400/20 rounded-full blur-3xl"
-                />
-                <motion.div
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                    className="absolute bottom-20 left-10 w-48 h-48 bg-gradient-to-r from-blue-400/20 to-green-400/20 rounded-full blur-3xl"
-                />
+                <div className="absolute top-20 right-10 w-64 h-64 bg-gradient-to-r from-purple-400/10 to-blue-400/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-20 left-10 w-48 h-48 bg-gradient-to-r from-blue-400/10 to-green-400/10 rounded-full blur-3xl" />
             </div>
 
             <div className="relative z-10 pt-24 pb-16 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md mx-auto">
                     {/* Header Section */}
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                        transition={{ duration: 0.4 }}
                         className="text-center mb-8"
                     >
                         <motion.div
-                            initial={{ scale: 0.8 }}
+                            initial={{ scale: 0.9 }}
                             animate={{ scale: 1 }}
-                            transition={{ duration: 0.8, delay: 0.1 }}
+                            transition={{ duration: 0.5 }}
                             className="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center"
                         >
                             <HiSparkles className="w-10 h-10 text-white" />
@@ -241,9 +233,9 @@ const RegisterPage = () => {
 
                     {/* Registration Form */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
+                        transition={{ duration: 0.4, delay: 0.1 }}
                         className="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 p-8"
                     >
                         {/* Success Message */}
@@ -273,14 +265,13 @@ const RegisterPage = () => {
                                     <FaExclamationCircle className="text-red-500 text-xl" />
                                     <div className="flex-1">
                                         <span className="text-red-700 font-medium">{error}</span>
-                                        <motion.button
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.9 }}
+                                        <button
+                                            type="button"
                                             onClick={() => setError('')}
-                                            className="ml-2 text-red-400 hover:text-red-600"
+                                            className="ml-2 text-red-400 hover:text-red-600 transition-colors"
                                         >
                                             <HiX className="w-4 h-4" />
-                                        </motion.button>
+                                        </button>
                                     </div>
                                 </motion.div>
                             )}
@@ -373,15 +364,13 @@ const RegisterPage = () => {
                                             }`}
                                         disabled={isLoading}
                                     />
-                                    <motion.button
+                                    <button
                                         type="button"
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                                     >
                                         {showPassword ? <FaEyeSlash /> : <FaEye />}
-                                    </motion.button>
+                                    </button>
                                 </div>
                                 {passwordError && (
                                     <motion.p
@@ -413,15 +402,13 @@ const RegisterPage = () => {
                                             }`}
                                         disabled={isLoading}
                                     />
-                                    <motion.button
+                                    <button
                                         type="button"
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                                     >
                                         {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                                    </motion.button>
+                                    </button>
                                 </div>
                                 {confirmPasswordError && (
                                     <motion.p
@@ -436,23 +423,17 @@ const RegisterPage = () => {
                             </div>
 
                             {/* Sign Up Button */}
-                            <motion.button
+                            <button
                                 type="submit"
                                 disabled={isLoading || nameError !== '' || emailError !== '' || passwordError !== '' || confirmPasswordError !== ''}
-                                whileHover={{ scale: isLoading ? 1 : 1.02 }}
-                                whileTap={{ scale: isLoading ? 1 : 0.98 }}
-                                className={`w-full py-4 rounded-2xl font-semibold text-white transition-all flex items-center justify-center gap-2 ${isLoading || nameError !== '' || emailError !== '' || passwordError !== '' || confirmPasswordError !== ''
-                                    ? 'bg-gray-400 cursor-not-allowed'
+                                className={`w-full py-4 rounded-2xl font-semibold text-white transition-all flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] ${isLoading || nameError !== '' || emailError !== '' || passwordError !== '' || confirmPasswordError !== ''
+                                    ? 'bg-gray-400 cursor-not-allowed hover:scale-100'
                                     : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg hover:shadow-xl'
                                     }`}
                             >
                                 {isLoading ? (
                                     <>
-                                        <motion.div
-                                            animate={{ rotate: 360 }}
-                                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                            className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                                        />
+                                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                                         Creating Account...
                                     </>
                                 ) : (
@@ -462,7 +443,7 @@ const RegisterPage = () => {
                                         <HiArrowRight className="w-4 h-4" />
                                     </>
                                 )}
-                            </motion.button>
+                            </button>
 
                             {/* Divider */}
                             <div className="relative">
@@ -475,17 +456,15 @@ const RegisterPage = () => {
                             </div>
 
                             {/* Google Sign Up Button */}
-                            <motion.button
+                            <button
                                 type="button"
                                 onClick={handleGoogleLogin}
                                 disabled={isLoading}
-                                whileHover={{ scale: isLoading ? 1 : 1.02 }}
-                                whileTap={{ scale: isLoading ? 1 : 0.98 }}
-                                className="w-full py-4 border-2 border-gray-200 rounded-2xl flex items-center justify-center gap-3 hover:border-gray-300 hover:bg-gray-50 transition-all font-medium text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full py-4 border-2 border-gray-200 rounded-2xl flex items-center justify-center gap-3 hover:border-gray-300 hover:bg-gray-50 hover:scale-[1.02] active:scale-[0.98] transition-all font-medium text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                             >
                                 <FcGoogle className="w-6 h-6" />
                                 Sign up with Google
-                            </motion.button>
+                            </button>
 
                             {/* Login Link */}
                             <div className="text-center">
