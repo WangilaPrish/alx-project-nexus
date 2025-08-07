@@ -142,6 +142,9 @@ export const authService = {
         avatar?: string;
     }) => {
         try {
+            console.log('Attempting to connect to:', AUTH_ENDPOINTS.GOOGLE_AUTH);
+            console.log('Sending data:', userData);
+            
             const response = await fetch(AUTH_ENDPOINTS.GOOGLE_AUTH, {
                 method: 'POST',
                 headers: {
@@ -150,7 +153,20 @@ export const authService = {
                 body: JSON.stringify(userData)
             });
 
+            console.log('Response status:', response.status);
+            console.log('Response ok:', response.ok);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Response error:', errorText);
+                return {
+                    success: false,
+                    message: `Server error: ${response.status} - ${errorText}`
+                };
+            }
+
             const data = await response.json();
+            console.log('Response data:', data);
 
             if (data.success) {
                 authService.setToken(data.data.token);
@@ -162,7 +178,7 @@ export const authService = {
             console.error('Google auth error:', error);
             return {
                 success: false,
-                message: 'Google authentication failed. Please try again.'
+                message: `Network error: ${error instanceof Error ? error.message : 'Google authentication failed. Please try again.'}`
             };
         }
     },
