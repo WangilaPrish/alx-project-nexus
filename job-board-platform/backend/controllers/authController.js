@@ -3,17 +3,21 @@ const User = require('../models/User');
 // Register user with email and password
 const register = async (req, res) => {
     try {
+        console.log('🚀 Registration request received:', req.body);
         const { name, email, password } = req.body;
 
+        console.log('📧 Checking if user exists:', email);
         // Check if user already exists
         const existingUser = await User.findByEmail(email);
         if (existingUser) {
+            console.log('❌ User already exists:', email);
             return res.status(409).json({
                 success: false,
                 message: 'User with this email already exists'
             });
         }
 
+        console.log('👤 Creating new user with data:', { name, email, provider: 'email' });
         // Create new user
         const userData = {
             name,
@@ -24,10 +28,13 @@ const register = async (req, res) => {
         };
 
         const user = new User(userData);
+        console.log('💾 Attempting to save user...');
         const savedUser = await user.save();
+        console.log('✅ User saved successfully:', savedUser);
 
         // Generate JWT token
         const token = User.generateToken(savedUser);
+        console.log('🔑 Token generated successfully');
 
         res.status(201).json({
             success: true,
@@ -45,7 +52,7 @@ const register = async (req, res) => {
             }
         });
     } catch (error) {
-        console.error('Registration error:', error);
+        console.error('💥 Registration error:', error);
         res.status(500).json({
             success: false,
             message: error.message || 'Registration failed',

@@ -1,7 +1,7 @@
 // Quick test script for API endpoints
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
-const API_BASE = 'http://localhost:50001/api';
+const API_BASE = 'http://localhost:5001/api';
 
 async function testRegistration() {
     try {
