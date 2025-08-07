@@ -111,13 +111,26 @@ const Contact = () => {
         setError('');
 
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            const response = await fetch('http://localhost:5000/api/contacts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
 
-            setSuccess('Message sent successfully! We\'ll get back to you soon.');
-            setFormData({ name: '', email: '', subject: '', message: '' });
-        } catch {
-            setError('Failed to send message. Please try again.');
+            const data = await response.json();
+
+            if (data.success) {
+                setSuccess(data.message);
+                setFormData({ name: '', email: '', subject: '', message: '' });
+                setErrors({ name: '', email: '', subject: '', message: '' });
+            } else {
+                setError(data.message || 'Failed to send message. Please try again.');
+            }
+        } catch (err) {
+            console.error('Contact form error:', err);
+            setError('Failed to send message. Please check your connection and try again.');
         } finally {
             setIsLoading(false);
         }
@@ -329,8 +342,8 @@ const Contact = () => {
                                         value={formData.name}
                                         onChange={(e) => handleInputChange('name', e.target.value)}
                                         className={`w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-2xl focus:outline-none transition-all ${errors.name
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
                                             }`}
                                         disabled={isLoading}
                                     />
@@ -363,8 +376,8 @@ const Contact = () => {
                                         value={formData.email}
                                         onChange={(e) => handleInputChange('email', e.target.value)}
                                         className={`w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-2xl focus:outline-none transition-all ${errors.email
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
                                             }`}
                                         disabled={isLoading}
                                     />
@@ -397,8 +410,8 @@ const Contact = () => {
                                         value={formData.subject}
                                         onChange={(e) => handleInputChange('subject', e.target.value)}
                                         className={`w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-2xl focus:outline-none transition-all ${errors.subject
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
                                             }`}
                                         disabled={isLoading}
                                     />
@@ -430,8 +443,8 @@ const Contact = () => {
                                         onChange={(e) => handleInputChange('message', e.target.value)}
                                         rows={5}
                                         className={`w-full p-4 bg-gray-50 border-2 rounded-2xl focus:outline-none transition-all resize-none ${errors.message
-                                                ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100'
-                                                : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
+                                            ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-100'
+                                            : 'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
                                             }`}
                                         disabled={isLoading}
                                     />
@@ -458,8 +471,8 @@ const Contact = () => {
                                 whileHover={{ scale: isLoading ? 1 : 1.02 }}
                                 whileTap={{ scale: isLoading ? 1 : 0.98 }}
                                 className={`w-full py-4 rounded-2xl font-semibold text-white transition-all flex items-center justify-center gap-2 ${isLoading || Object.values(errors).some(error => error !== '')
-                                        ? 'bg-gray-400 cursor-not-allowed'
-                                        : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl'
+                                    ? 'bg-gray-400 cursor-not-allowed'
+                                    : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl'
                                     }`}
                             >
                                 {isLoading ? (
