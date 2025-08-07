@@ -225,15 +225,7 @@ const AppliedJobsPage = () => {
                         transition={{ duration: 0.6 }}
                         className="text-center mb-12"
                     >
-                        <div className="flex items-center justify-center gap-2 mb-4">
-                            <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                            >
-                                <HiSparkles className="text-yellow-500 text-2xl" />
-                            </motion.div>
-                            <span className="text-blue-600 font-semibold">Application Tracker</span>
-                        </div>
+
 
                         <h1 className="text-4xl md:text-5xl font-bold mb-4">
                             <span className="bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
