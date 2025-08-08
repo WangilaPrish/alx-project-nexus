@@ -21,6 +21,8 @@ import {
 } from 'react-icons/hi';
 import Footer from '../components/common/Footer';
 import Navbar from '../components/common/NavBar';
+import DeleteConfirmationModal from '../components/DeleteConfirmationModal';
+import ToastContainer from '../components/ToastNotification';
 import { useAppliedJobs } from '../context/AppliedJobsContext';
 import { useAuth } from '../context/AuthContext';
 import type { AppliedJob, Job } from '../types';
@@ -42,6 +44,17 @@ const AppliedJobsPage = () => {
     });
     const [externalUrl, setExternalUrl] = useState('');
     const [notes, setNotes] = useState('');
+    const [deleteModal, setDeleteModal] = useState<{
+        isOpen: boolean;
+        applicationId: string;
+        jobTitle: string;
+        companyName: string;
+    }>({
+        isOpen: false,
+        applicationId: '',
+        jobTitle: '',
+        companyName: ''
+    });
 
     // Enhanced filtering and sorting
     const filteredAndSortedJobs = useMemo(() => {
@@ -120,19 +133,63 @@ const AppliedJobsPage = () => {
 
     const handleStatusUpdate = async (applicationId: string, newStatus: AppliedJob['applicationStatus']) => {
         try {
+            const application = appliedJobs.find(job => job.id === applicationId);
             await updateApplicationStatus(applicationId, newStatus);
+
+            // Show success toast
+            window.showToast?.({
+                type: 'success',
+                title: 'Status Updated',
+                message: `Application for ${application?.job.title || 'job'} updated to ${newStatus}`,
+                duration: 2500
+            });
         } catch (err) {
             console.error('Failed to update status:', err);
+
+            // Show error toast
+            window.showToast?.({
+                type: 'error',
+                title: 'Update Failed',
+                message: 'Could not update application status. Please try again.',
+                duration: 3000
+            });
         }
     };
 
     const handleRemoveApplication = async (applicationId: string) => {
-        if (window.confirm('Are you sure you want to remove this application?')) {
-            try {
-                await removeApplication(applicationId);
-            } catch (err) {
-                console.error('Failed to remove application:', err);
-            }
+        const application = appliedJobs.find(job => job.id === applicationId);
+        if (!application) return;
+
+        setDeleteModal({
+            isOpen: true,
+            applicationId,
+            jobTitle: application.job.title,
+            companyName: application.job.company
+        });
+    };
+
+    const confirmRemoveApplication = async () => {
+        try {
+            await removeApplication(deleteModal.applicationId);
+
+            // Show success toast
+            window.showToast?.({
+                type: 'success',
+                title: 'Application Removed',
+                message: `Successfully removed application for ${deleteModal.jobTitle}`,
+                duration: 3000
+            });
+
+        } catch (err) {
+            console.error('Failed to remove application:', err);
+
+            // Show error toast
+            window.showToast?.({
+                type: 'error',
+                title: 'Failed to Remove Application',
+                message: 'Something went wrong. Please try again.',
+                duration: 4000
+            });
         }
     };
 
@@ -149,10 +206,20 @@ const AppliedJobsPage = () => {
                 type: newJob.type || 'Full-time',
                 experienceLevel: newJob.experienceLevel || 'Mid-level',
                 description: `Applied externally via ${externalUrl}`,
-                applyLink: externalUrl
+                applyLink: externalUrl,
+                salary: '',
+                postedAt: new Date().toISOString()
             };
 
             await addExternalApplication(jobToAdd, externalUrl, notes);
+
+            // Show success toast
+            window.showToast?.({
+                type: 'success',
+                title: 'External Application Added',
+                message: `Successfully added application for ${newJob.title} at ${newJob.company}`,
+                duration: 3000
+            });
 
             // Reset form
             setNewJob({
@@ -167,6 +234,14 @@ const AppliedJobsPage = () => {
             setShowAddForm(false);
         } catch (err) {
             console.error('Failed to add external job:', err);
+
+            // Show error toast
+            window.showToast?.({
+                type: 'error',
+                title: 'Failed to Add Application',
+                message: 'Could not add external application. Please try again.',
+                duration: 4000
+            });
         }
     };
 
@@ -677,6 +752,17 @@ const AppliedJobsPage = () => {
                 </div>
             </section>
 
+            {/* Toast Notifications */}
+            <ToastContainer />
+
+            {/* Delete Confirmation Modal */}
+            <DeleteConfirmationModal
+                isOpen={deleteModal.isOpen}
+                onClose={() => setDeleteModal({ ...deleteModal, isOpen: false })}
+                onConfirm={confirmRemoveApplication}
+                jobTitle={deleteModal.jobTitle}
+                companyName={deleteModal.companyName}
+            />
         </div>
     );
 };
