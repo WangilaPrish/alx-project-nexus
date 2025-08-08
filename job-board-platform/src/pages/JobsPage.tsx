@@ -22,6 +22,7 @@ const JobsPage = () => {
     const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
     const [selectedExperience, setSelectedExperience] = useState(searchParams.get('experience') || '');
     const [selectedJobType, setSelectedJobType] = useState(searchParams.get('type') || '');
+    const [selectedCompany, setSelectedCompany] = useState(searchParams.get('company') || '');
 
     // Update JobContext filters when local filters change
     useEffect(() => {
@@ -32,7 +33,7 @@ const JobsPage = () => {
         });
     }, [selectedCategory, location, selectedExperience, setFilters]);
 
-    // Additional filtering for searchTerm and jobType (not handled by JobContext)
+    // Additional filtering for searchTerm, jobType, and company (not handled by JobContext)
     const finalFilteredJobs = useMemo(() => {
         let jobs = filteredJobs;
 
@@ -52,8 +53,15 @@ const JobsPage = () => {
             );
         }
 
+        // Apply company filter
+        if (selectedCompany) {
+            jobs = jobs.filter(job =>
+                job.company.toLowerCase().includes(selectedCompany.toLowerCase())
+            );
+        }
+
         return jobs;
-    }, [filteredJobs, searchTerm, selectedJobType]);
+    }, [filteredJobs, searchTerm, selectedJobType, selectedCompany]);
 
     // Update URL when filters change
     useEffect(() => {
@@ -63,9 +71,10 @@ const JobsPage = () => {
         if (selectedCategory) params.set('category', selectedCategory);
         if (selectedExperience) params.set('experience', selectedExperience);
         if (selectedJobType) params.set('type', selectedJobType);
+        if (selectedCompany) params.set('company', selectedCompany);
 
         setSearchParams(params, { replace: true });
-    }, [searchTerm, location, selectedCategory, selectedExperience, selectedJobType, setSearchParams]);
+    }, [searchTerm, location, selectedCategory, selectedExperience, selectedJobType, selectedCompany, setSearchParams]);
 
     // Job statistics
     const totalJobs = finalFilteredJobs.length;
@@ -78,10 +87,11 @@ const JobsPage = () => {
 
     const uniqueCompanies = new Set(finalFilteredJobs.map(job => job.company)).size;
 
-    // Filter options
-    const categories = Array.from(new Set(jobs.map(job => job.experienceLevel))).filter(Boolean);
-    const jobTypes = Array.from(new Set(jobs.map(job => job.type))).filter(Boolean);
-    const experienceLevels = ['Entry-level', 'Mid-level', 'Senior-level', 'Executive'];
+    // Filter options based on actual job data
+    const jobTitles = Array.from(new Set(jobs.map(job => job.title))).filter(Boolean).sort();
+    const jobTypes = Array.from(new Set(jobs.map(job => job.type))).filter(Boolean).sort();
+    const experienceLevels = Array.from(new Set(jobs.map(job => job.experienceLevel))).filter(Boolean).sort();
+    const companies = Array.from(new Set(jobs.map(job => job.company))).filter(Boolean).sort();
 
     const clearFilters = () => {
         setSearchTerm('');
@@ -89,9 +99,10 @@ const JobsPage = () => {
         setSelectedCategory('');
         setSelectedExperience('');
         setSelectedJobType('');
+        setSelectedCompany('');
     };
 
-    const hasActiveFilters = searchTerm || location || selectedCategory || selectedExperience || selectedJobType;
+    const hasActiveFilters = searchTerm || location || selectedCategory || selectedExperience || selectedJobType || selectedCompany;
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
@@ -228,30 +239,30 @@ const JobsPage = () => {
                             className="overflow-hidden"
                         >
                             <div className="pt-6 border-t border-gray-200 mt-6">
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    {/* Category Filter */}
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                    {/* Job Category Filter */}
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Experience Level
+                                            Job Title
                                         </label>
                                         <select
                                             value={selectedCategory}
                                             onChange={(e) => setSelectedCategory(e.target.value)}
                                             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                         >
-                                            <option value="">All Levels</option>
-                                            {categories.map(category => (
-                                                <option key={category} value={category}>
-                                                    {category}
+                                            <option value="">All Job Titles</option>
+                                            {jobTitles.map(title => (
+                                                <option key={title} value={title}>
+                                                    {title}
                                                 </option>
                                             ))}
                                         </select>
                                     </div>
 
-                                    {/* Experience Filter */}
+                                    {/* Experience Level Filter */}
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Experience
+                                            Experience Level
                                         </label>
                                         <select
                                             value={selectedExperience}
@@ -281,6 +292,25 @@ const JobsPage = () => {
                                             {jobTypes.map(type => (
                                                 <option key={type} value={type}>
                                                     {type}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    {/* Company Filter */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Company
+                                        </label>
+                                        <select
+                                            value={selectedCompany}
+                                            onChange={(e) => setSelectedCompany(e.target.value)}
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                        >
+                                            <option value="">All Companies</option>
+                                            {companies.map(company => (
+                                                <option key={company} value={company}>
+                                                    {company}
                                                 </option>
                                             ))}
                                         </select>
