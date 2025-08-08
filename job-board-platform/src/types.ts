@@ -5,10 +5,10 @@ export interface Job {
     location: string;
     type: string;
     experienceLevel: string;
-    description?: string;
-    applyLink?: string;
-    salary?: string;
-    postedAt?: string;
+    description: string;
+    applyLink: string;
+    salary: string;
+    postedAt: string;
 }
 
 export interface AppliedJob {

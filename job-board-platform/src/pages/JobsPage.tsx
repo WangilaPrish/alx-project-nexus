@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import {
     HiAdjustments,
     HiBriefcase,
@@ -14,13 +14,45 @@ import { useJobContext } from '../context/JobContext';
 
 const JobsPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const { jobs } = useJobContext();
+    const { jobs, setFilters, filteredJobs } = useJobContext();
     const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
     const [location, setLocation] = useState(searchParams.get('location') || '');
     const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
     const [selectedExperience, setSelectedExperience] = useState(searchParams.get('experience') || '');
     const [selectedJobType, setSelectedJobType] = useState(searchParams.get('type') || '');
+
+    // Update JobContext filters when local filters change
+    useEffect(() => {
+        setFilters({
+            category: selectedCategory,
+            location: location,
+            experience: selectedExperience
+        });
+    }, [selectedCategory, location, selectedExperience, setFilters]);
+
+    // Additional filtering for searchTerm and jobType (not handled by JobContext)
+    const finalFilteredJobs = useMemo(() => {
+        let jobs = filteredJobs;
+
+        // Apply search term filter
+        if (searchTerm) {
+            jobs = jobs.filter(job =>
+                job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                job.description.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+
+        // Apply job type filter
+        if (selectedJobType) {
+            jobs = jobs.filter(job =>
+                job.type.toLowerCase().includes(selectedJobType.toLowerCase())
+            );
+        }
+
+        return jobs;
+    }, [filteredJobs, searchTerm, selectedJobType]);
 
     // Update URL when filters change
     useEffect(() => {
@@ -35,15 +67,15 @@ const JobsPage = () => {
     }, [searchTerm, location, selectedCategory, selectedExperience, selectedJobType, setSearchParams]);
 
     // Job statistics
-    const totalJobs = jobs.length;
-    const newJobsThisWeek = jobs.filter(job => {
+    const totalJobs = finalFilteredJobs.length;
+    const newJobsThisWeek = finalFilteredJobs.filter(job => {
         const jobDate = new Date(job.postedAt || '');
         const weekAgo = new Date();
         weekAgo.setDate(weekAgo.getDate() - 7);
         return jobDate >= weekAgo;
     }).length;
 
-    const uniqueCompanies = new Set(jobs.map(job => job.company)).size;
+    const uniqueCompanies = new Set(finalFilteredJobs.map(job => job.company)).size;
 
     // Filter options
     const categories = Array.from(new Set(jobs.map(job => job.experienceLevel))).filter(Boolean);
