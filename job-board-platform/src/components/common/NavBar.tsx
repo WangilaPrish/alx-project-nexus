@@ -46,9 +46,21 @@ const Navbar = () => {
             show: true
         },
         {
+            to: "/all-jobs",
+            label: "All Jobs",
+            icon: HiBriefcase,
+            show: true
+        },
+        {
             to: "/jobs",
             label: "Find Jobs",
             icon: HiSearch,
+            show: true
+        },
+        {
+            to: "/external-jobs",
+            label: "External Jobs",
+            icon: HiBriefcase,
             show: true
         },
         {
@@ -117,8 +129,8 @@ const Navbar = () => {
                                 <Link
                                     to={item.to}
                                     className={`relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 group ${isActiveRoute(item.to)
-                                            ? 'text-blue-600 bg-blue-50'
-                                            : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                                        ? 'text-blue-600 bg-blue-50'
+                                        : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
                                         }`}
                                 >
                                     <item.icon className="w-4 h-4" />
@@ -160,8 +172,8 @@ const Navbar = () => {
                                         <Link
                                             to={item.to}
                                             className={`text-sm font-medium px-4 py-2 rounded-xl transition-all duration-200 ${item.isPrimary
-                                                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105'
-                                                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                                                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105'
+                                                : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
                                                 }`}
                                         >
                                             {item.label}
@@ -295,8 +307,8 @@ const Navbar = () => {
                                         <Link
                                             to={item.to}
                                             className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${isActiveRoute(item.to)
-                                                    ? 'text-blue-600 bg-blue-50'
-                                                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                                                ? 'text-blue-600 bg-blue-50'
+                                                : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
                                                 }`}
                                             onClick={() => setIsOpen(false)}
                                         >
@@ -356,8 +368,8 @@ const Navbar = () => {
                                                 key={item.label}
                                                 to={item.to}
                                                 className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all ${item.isPrimary
-                                                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center'
-                                                        : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                                                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center'
+                                                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
                                                     }`}
                                                 onClick={() => setIsOpen(false)}
                                             >
