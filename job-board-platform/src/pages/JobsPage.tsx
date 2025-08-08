@@ -23,6 +23,8 @@ const JobsPage = () => {
     const [selectedExperience, setSelectedExperience] = useState(searchParams.get('experience') || '');
     const [selectedJobType, setSelectedJobType] = useState(searchParams.get('type') || '');
     const [selectedCompany, setSelectedCompany] = useState(searchParams.get('company') || '');
+    const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get('page') || '1'));
+    const [jobsPerPage] = useState(9); // Show 9 jobs per page
 
     // Update JobContext filters when local filters change
     useEffect(() => {
@@ -63,6 +65,17 @@ const JobsPage = () => {
         return jobs;
     }, [filteredJobs, searchTerm, selectedJobType, selectedCompany]);
 
+    // Pagination logic
+    const totalPages = Math.ceil(finalFilteredJobs.length / jobsPerPage);
+    const startIndex = (currentPage - 1) * jobsPerPage;
+    const endIndex = startIndex + jobsPerPage;
+    const currentJobs = finalFilteredJobs.slice(startIndex, endIndex);
+
+    // Reset to page 1 when filters change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm, location, selectedCategory, selectedExperience, selectedJobType, selectedCompany]);
+
     // Update URL when filters change
     useEffect(() => {
         const params = new URLSearchParams();
@@ -72,9 +85,10 @@ const JobsPage = () => {
         if (selectedExperience) params.set('experience', selectedExperience);
         if (selectedJobType) params.set('type', selectedJobType);
         if (selectedCompany) params.set('company', selectedCompany);
+        if (currentPage > 1) params.set('page', currentPage.toString());
 
         setSearchParams(params, { replace: true });
-    }, [searchTerm, location, selectedCategory, selectedExperience, selectedJobType, selectedCompany, setSearchParams]);
+    }, [searchTerm, location, selectedCategory, selectedExperience, selectedJobType, selectedCompany, currentPage, setSearchParams]);
 
     // Job statistics
     const totalJobs = finalFilteredJobs.length;
@@ -100,6 +114,7 @@ const JobsPage = () => {
         setSelectedExperience('');
         setSelectedJobType('');
         setSelectedCompany('');
+        setCurrentPage(1);
     };
 
     const hasActiveFilters = searchTerm || location || selectedCategory || selectedExperience || selectedJobType || selectedCompany;
@@ -344,6 +359,11 @@ const JobsPage = () => {
                                     Showing results matching your search criteria
                                 </p>
                             )}
+                            {finalFilteredJobs.length > 0 && totalPages > 1 && (
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Page {currentPage} of {totalPages} • Showing {startIndex + 1}-{Math.min(endIndex, finalFilteredJobs.length)} of {finalFilteredJobs.length} jobs
+                                </p>
+                            )}
                         </div>
 
                         {finalFilteredJobs.length > 0 && (
@@ -386,7 +406,7 @@ const JobsPage = () => {
                         ) : (
                             /* Job Cards Grid */
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {finalFilteredJobs.map((job, index) => (
+                                {currentJobs.map((job, index) => (
                                     <motion.div
                                         key={job.id}
                                         initial={{ opacity: 0, y: 20 }}
@@ -400,17 +420,62 @@ const JobsPage = () => {
                             </div>
                         )}
 
-                        {/* Load More Section (if needed for pagination) */}
-                        {finalFilteredJobs.length > 0 && finalFilteredJobs.length >= 9 && (
-                            <div className="text-center mt-12">
+                        {/* Pagination Controls */}
+                        {finalFilteredJobs.length > 0 && totalPages > 1 && (
+                            <div className="flex justify-center items-center mt-12 gap-2">
                                 <motion.button
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 1.2 }}
-                                    className="inline-flex items-center px-6 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 font-medium shadow-sm"
+                                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                                    disabled={currentPage === 1}
+                                    className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    <HiTrendingUp className="w-4 h-4 mr-2" />
-                                    Load More Jobs
+                                    ← Previous
+                                </motion.button>
+
+                                <div className="flex items-center gap-1">
+                                    {/* Page Numbers */}
+                                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                                        let pageNum;
+                                        if (totalPages <= 5) {
+                                            pageNum = i + 1;
+                                        } else if (currentPage <= 3) {
+                                            pageNum = i + 1;
+                                        } else if (currentPage >= totalPages - 2) {
+                                            pageNum = totalPages - 4 + i;
+                                        } else {
+                                            pageNum = currentPage - 2 + i;
+                                        }
+
+                                        return (
+                                            <motion.button
+                                                key={pageNum}
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                transition={{ delay: 1.3 + i * 0.1 }}
+                                                onClick={() => setCurrentPage(pageNum)}
+                                                className={`w-10 h-10 rounded-lg font-medium transition-all duration-200 ${
+                                                    currentPage === pageNum
+                                                        ? 'bg-blue-600 text-white shadow-md'
+                                                        : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400'
+                                                }`}
+                                            >
+                                                {pageNum}
+                                            </motion.button>
+                                        );
+                                    })}
+                                </div>
+
+                                <motion.button
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 1.2 }}
+                                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                                    disabled={currentPage === totalPages}
+                                    className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    Next →
                                 </motion.button>
                             </div>
                         )}
