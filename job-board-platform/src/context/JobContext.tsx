@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import type { Job } from '../types';
 import { fetchJobs } from '../services/jobService';
@@ -18,6 +18,7 @@ interface JobContextType {
     currentPage: number;
     setCurrentPage: (page: number) => void;
     jobsPerPage: number;
+    filteredJobs: Job[];
 }
 
 const JobContext = createContext<JobContextType | undefined>(undefined);
@@ -50,6 +51,16 @@ export const JobProvider = ({ children }: { children: ReactNode }) => {
         getJobs();
     }, []);
 
+    // Filter jobs client-side
+    const filteredJobs = useMemo(() => {
+        return jobs.filter(job => {
+            const matchCategory = filters.category ? job.title.toLowerCase().includes(filters.category.toLowerCase()) : true;
+            const matchLocation = filters.location ? job.location.toLowerCase().includes(filters.location.toLowerCase()) : true;
+            const matchExperience = filters.experience ? job.experienceLevel.toLowerCase().includes(filters.experience.toLowerCase()) : true;
+            return matchCategory && matchLocation && matchExperience;
+        });
+    }, [jobs, filters]);
+
     return (
         <JobContext.Provider
             value={{
@@ -60,7 +71,8 @@ export const JobProvider = ({ children }: { children: ReactNode }) => {
                 setFilters,
                 currentPage,
                 setCurrentPage,
-                jobsPerPage
+                jobsPerPage,
+                filteredJobs
             }}
         >
             {children}

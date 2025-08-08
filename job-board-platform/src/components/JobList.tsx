@@ -1,6 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useMemo, useState } from 'react';
-import { HiSparkles } from 'react-icons/hi';
 import {
     MdChevronLeft,
     MdChevronRight,

@@ -1,29 +1,36 @@
 import type { Job } from '../types';
 
 export const fetchJobs = async (): Promise<Job[]> => {
-    const totalPages = 5; // You can increase this if needed
+    const totalPages = 5;
     const jobs: Job[] = [];
 
     const options = {
         method: 'GET',
         headers: {
-            'x-rapidapi-key': '3a67b983fcmsh933330d1e3537c3p1a5f33jsnf5af25fe41ff',
-            'x-rapidapi-host': 'jsearch.p.rapidapi.com',
+            'x-rapidapi-key': '02d361324cmsh08a8e94bf2484f0p18f44djsna368b3a71d0c',
+            'x-rapidapi-host': 'jobs-api14.p.rapidapi.com',
         },
     };
 
-    for (let page = 1; page <= totalPages; page++) {
-        const url = `https://jsearch.p.rapidapi.com/search?query=developer%20jobs&page=${page}&num_pages=1&country=us&date_posted=all`;
+    const fetchPage = async (page: number): Promise<Job[]> => {
+        const index = (page - 1) * 10;
+        const url = `https://jobs-api14.p.rapidapi.com/list?query=Web%20Developer&location=United%20States&distance=1.0&language=en_GB&remoteOnly=false&datePosted=month&employmentTypes=fulltime%3Bparttime%3Bintern%3Bcontractor&index=${index}`;
 
         try {
             const response = await fetch(url, options);
+
             if (!response.ok) {
-                throw new Error(`Failed to fetch jobs on page ${page}`);
+                console.warn(`Skipping page ${page} due to fetch error. Status: ${response.status}`);
+                return [];
             }
 
             const data = await response.json();
+            if (!data?.data || !Array.isArray(data.data)) {
+                console.warn(`Invalid data on page ${page}`);
+                return [];
+            }
 
-            const mappedJobs = (data.data || []).map((job: any, index: number) => ({
+            return data.data.map((job: any, index: number) => ({
                 id: job.job_id || `${page}-${index}`,
                 title: job.job_title || 'Untitled',
                 company: job.employer_name || 'Unknown Company',
@@ -34,15 +41,20 @@ export const fetchJobs = async (): Promise<Job[]> => {
                 applyLink: job.job_apply_link || '',
                 salary:
                     job.job_min_salary && job.job_max_salary
-                        ? `${job.job_min_salary} - ${job.job_max_salary} ${job.job_salary_currency}`
+                        ? `${job.job_min_salary} - ${job.job_max_salary} ${job.job_salary_currency || ''}`
                         : 'Not specified',
                 postedAt: job.job_posted_at_datetime_utc || '',
             }));
-
-            jobs.push(...mappedJobs);
         } catch (error) {
             console.error(`JSearch API Error on page ${page}:`, error);
+            return [];
         }
+    };
+
+    // Sequential fetching to stay within API limits
+    for (let page = 1; page <= totalPages; page++) {
+        const pageJobs = await fetchPage(page);
+        jobs.push(...pageJobs);
     }
 
     return jobs;
