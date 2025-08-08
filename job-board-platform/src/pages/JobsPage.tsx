@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
     HiAdjustments,
     HiBriefcase,
@@ -10,6 +10,7 @@ import {
     HiUsers
 } from 'react-icons/hi';
 import { useSearchParams } from 'react-router-dom';
+import JobCard from '../components/JobCard';
 import { useJobContext } from '../context/JobContext';
 
 const JobsPage = () => {
@@ -287,6 +288,102 @@ const JobsPage = () => {
                                 </div>
                             </div>
                         </motion.div>
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* Job Listings Section */}
+            <section className="py-16 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto">
+                    {/* Results Summary */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.8 }}
+                        className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4"
+                    >
+                        <div>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                                {finalFilteredJobs.length === 0
+                                    ? 'No jobs found'
+                                    : `${finalFilteredJobs.length} job${finalFilteredJobs.length !== 1 ? 's' : ''} found`
+                                }
+                            </h2>
+                            {hasActiveFilters && (
+                                <p className="text-gray-600">
+                                    Showing results matching your search criteria
+                                </p>
+                            )}
+                        </div>
+
+                        {finalFilteredJobs.length > 0 && (
+                            <div className="flex items-center gap-2 text-sm text-gray-500">
+                                <span>Sort by:</span>
+                                <select className="border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700">
+                                    <option>Most Recent</option>
+                                    <option>Most Relevant</option>
+                                    <option>Company A-Z</option>
+                                </select>
+                            </div>
+                        )}
+                    </motion.div>
+
+                    {/* Job Results */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.9 }}
+                    >
+                        {finalFilteredJobs.length === 0 ? (
+                            /* Empty State */
+                            <div className="text-center py-16">
+                                <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                                    <HiBriefcase className="w-12 h-12 text-gray-400" />
+                                </div>
+                                <h3 className="text-xl font-semibold text-gray-900 mb-2">No jobs found</h3>
+                                <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                                    We couldn't find any jobs matching your search criteria. Try adjusting your filters or search terms.
+                                </p>
+                                {hasActiveFilters && (
+                                    <button
+                                        onClick={clearFilters}
+                                        className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                                    >
+                                        Clear All Filters
+                                    </button>
+                                )}
+                            </div>
+                        ) : (
+                            /* Job Cards Grid */
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {finalFilteredJobs.map((job, index) => (
+                                    <motion.div
+                                        key={job.id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                                        className="h-full"
+                                    >
+                                        <JobCard job={job} />
+                                    </motion.div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Load More Section (if needed for pagination) */}
+                        {finalFilteredJobs.length > 0 && finalFilteredJobs.length >= 9 && (
+                            <div className="text-center mt-12">
+                                <motion.button
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 1.2 }}
+                                    className="inline-flex items-center px-6 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 font-medium shadow-sm"
+                                >
+                                    <HiTrendingUp className="w-4 h-4 mr-2" />
+                                    Load More Jobs
+                                </motion.button>
+                            </div>
+                        )}
                     </motion.div>
                 </div>
             </section>
