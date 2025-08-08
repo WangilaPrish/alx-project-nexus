@@ -455,11 +455,10 @@ const JobsPage = () => {
                                                 animate={{ opacity: 1 }}
                                                 transition={{ delay: 1.3 + i * 0.1 }}
                                                 onClick={() => setCurrentPage(pageNum)}
-                                                className={`w-10 h-10 rounded-lg font-medium transition-all duration-200 ${
-                                                    currentPage === pageNum
+                                                className={`w-10 h-10 rounded-lg font-medium transition-all duration-200 ${currentPage === pageNum
                                                         ? 'bg-blue-600 text-white shadow-md'
                                                         : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400'
-                                                }`}
+                                                    }`}
                                             >
                                                 {pageNum}
                                             </motion.button>
