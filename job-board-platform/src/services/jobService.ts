@@ -1,20 +1,20 @@
 import type { Job } from '../types';
 
 export const fetchJobs = async (): Promise<Job[]> => {
-    const totalPages = 5;
+    const totalPages = 5; // Adjust as needed
     const jobs: Job[] = [];
 
     const options = {
         method: 'GET',
         headers: {
-            'x-rapidapi-key': '02d361324cmsh08a8e94bf2484f0p18f44djsna368b3a71d0c',
-            'x-rapidapi-host': 'jobs-api14.p.rapidapi.com',
+            'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY,
+            'x-rapidapi-host': import.meta.env.VITE_RAPIDAPI_HOST,
         },
     };
 
     const fetchPage = async (page: number): Promise<Job[]> => {
         const index = (page - 1) * 10;
-        const url = `https://jobs-api14.p.rapidapi.com/list?query=Web%20Developer&location=United%20States&distance=1.0&language=en_GB&remoteOnly=false&datePosted=month&employmentTypes=fulltime%3Bparttime%3Bintern%3Bcontractor&index=${index}`;
+        const url = `https://${import.meta.env.VITE_RAPIDAPI_HOST}/list?query=Web%20Developer&location=United%20States&distance=1.0&language=en_GB&remoteOnly=false&datePosted=month&employmentTypes=fulltime%3Bparttime%3Bintern%3Bcontractor&index=${index}`;
 
         try {
             const response = await fetch(url, options);
@@ -51,7 +51,6 @@ export const fetchJobs = async (): Promise<Job[]> => {
         }
     };
 
-    // Sequential fetching to stay within API limits
     for (let page = 1; page <= totalPages; page++) {
         const pageJobs = await fetchPage(page);
         jobs.push(...pageJobs);
