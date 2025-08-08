@@ -46,21 +46,9 @@ const Navbar = () => {
             show: true
         },
         {
-            to: "/all-jobs",
-            label: "All Jobs",
-            icon: HiBriefcase,
-            show: true
-        },
-        {
             to: "/jobs",
             label: "Find Jobs",
             icon: HiSearch,
-            show: true
-        },
-        {
-            to: "/external-jobs",
-            label: "External Jobs",
-            icon: HiBriefcase,
             show: true
         },
         {
