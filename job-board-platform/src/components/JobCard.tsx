@@ -19,7 +19,7 @@ const JobCard = ({ job }: { job: Job }) => {
 
     const handleApply = async () => {
         if (!user) {
-            alert('Please sign in to apply for jobs');
+            alert('Please sign in to track job applications');
             return;
         }
 
@@ -29,12 +29,13 @@ const JobCard = ({ job }: { job: Job }) => {
 
         try {
             setIsApplying(true);
-            await applyToJob(job, job.applyLink);
+            // Mark as applied for tracking purposes (no external URL needed)
+            await applyToJob(job);
             setShowSuccess(true);
             setShowDisclaimer(true);
             setTimeout(() => setShowSuccess(false), 2000);
         } catch (error) {
-            alert(error instanceof Error ? error.message : 'Failed to apply to job');
+            alert(error instanceof Error ? error.message : 'Failed to mark job as applied');
         } finally {
             setIsApplying(false);
         }
@@ -122,6 +123,7 @@ const JobCard = ({ job }: { job: Job }) => {
                                 ? 'bg-green-500 text-white'
                                 : 'bg-blue-600 text-white hover:bg-blue-700'
                             }`}
+                        title={isApplied ? "Already marked as applied" : "Mark as applied to track this job"}
                     >
                         {isApplying ? (
                             <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin" />
@@ -131,7 +133,7 @@ const JobCard = ({ job }: { job: Job }) => {
                                 {getStatusLabel()}
                             </>
                         ) : (
-                            'Apply'
+                            'Mark Applied'
                         )}
                     </button>
 

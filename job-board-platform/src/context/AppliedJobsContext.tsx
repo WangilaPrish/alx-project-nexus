@@ -59,14 +59,14 @@ export const AppliedJobsProvider = ({ children }: { children: ReactNode }) => {
 
     const applyToJob = async (job: Job, externalUrl?: string, notes?: string) => {
         if (!user) {
-            throw new Error('User must be logged in to apply to jobs');
+            throw new Error('User must be logged in to track job applications');
         }
 
         try {
             // Check if already applied
             const alreadyApplied = appliedJobs.some(appliedJob => appliedJob.jobId === job.id);
             if (alreadyApplied) {
-                throw new Error('You have already applied to this job');
+                throw new Error('You have already marked this job as applied');
             }
 
             const newApplication: AppliedJob = {
@@ -83,7 +83,7 @@ export const AppliedJobsProvider = ({ children }: { children: ReactNode }) => {
             const updatedJobs = [...appliedJobs, newApplication];
             saveAppliedJobs(updatedJobs);
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to apply to job');
+            setError(err instanceof Error ? err.message : 'Failed to mark job as applied');
             throw err;
         }
     };

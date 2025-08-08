@@ -51,8 +51,8 @@ const ApplicationDisclaimer = ({
 
             <div
                 className={`fixed top-4 right-4 z-50 max-w-sm w-full transition-all duration-300 ${isLeaving
-                        ? 'opacity-0 transform translate-x-full'
-                        : 'opacity-100 transform translate-x-0'
+                    ? 'opacity-0 transform translate-x-full'
+                    : 'opacity-100 transform translate-x-0'
                     }`}
             >
                 <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-4 relative overflow-hidden">
@@ -76,23 +76,21 @@ const ApplicationDisclaimer = ({
 
                         <div className="flex-1 min-w-0">
                             <h4 className="text-sm font-semibold text-gray-900 mb-1">
-                                Application Submitted!
+                                Job Marked as Applied!
                             </h4>
                             <p className="text-xs text-gray-600 mb-2">
-                                Your application for <span className="font-medium">{jobTitle}</span> has been submitted.
+                                {jobTitle} has been added to your application tracking list.
                             </p>
 
                             <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
                                 <div className="flex items-start gap-2">
                                     <HiInformationCircle className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
                                     <div className="text-xs text-blue-800">
-                                        <p className="font-medium mb-1">Remember to track your application!</p>
-                                        <p>Come back and update your application status as it progresses.</p>
+                                        <p className="font-medium mb-1">Don't forget to actually apply!</p>
+                                        <p>Use the "External" link to apply on the company's website, then come back to update your status.</p>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div className="flex gap-2">
+                            </div>                            <div className="flex gap-2">
                                 <button
                                     onClick={onUpdateStatus}
                                     className="text-xs bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 transition-colors font-medium"
