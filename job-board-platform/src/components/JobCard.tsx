@@ -1,16 +1,21 @@
 import { useState } from 'react';
-import { HiCheck, HiExternalLink } from 'react-icons/hi';
+import { HiCheck, HiCog, HiExternalLink } from 'react-icons/hi';
 import { useAppliedJobs } from '../context/AppliedJobsContext';
 import { useAuth } from '../context/AuthContext';
 import type { Job } from '../types';
+import ApplicationDisclaimer from './ApplicationDisclaimer';
+import ApplicationStatusModal from './ApplicationStatusModal';
 
 const JobCard = ({ job }: { job: Job }) => {
     const { appliedJobs, applyToJob } = useAppliedJobs();
     const { user } = useAuth();
     const [isApplying, setIsApplying] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [showDisclaimer, setShowDisclaimer] = useState(false);
+    const [showStatusModal, setShowStatusModal] = useState(false);
 
-    const isApplied = appliedJobs.some(appliedJob => appliedJob.jobId === job.id);
+    const appliedJob = appliedJobs.find(appliedJob => appliedJob.jobId === job.id);
+    const isApplied = !!appliedJob;
 
     const handleApply = async () => {
         if (!user) {
@@ -26,11 +31,43 @@ const JobCard = ({ job }: { job: Job }) => {
             setIsApplying(true);
             await applyToJob(job, job.applyLink);
             setShowSuccess(true);
+            setShowDisclaimer(true);
             setTimeout(() => setShowSuccess(false), 2000);
         } catch (error) {
             alert(error instanceof Error ? error.message : 'Failed to apply to job');
         } finally {
             setIsApplying(false);
+        }
+    };
+
+    const handleUpdateStatus = () => {
+        setShowDisclaimer(false);
+        setShowStatusModal(true);
+    };
+
+    const getStatusColor = () => {
+        if (!appliedJob) return '';
+
+        switch (appliedJob.applicationStatus) {
+            case 'applied': return 'bg-blue-100 text-blue-700';
+            case 'viewed': return 'bg-yellow-100 text-yellow-700';
+            case 'interviewed': return 'bg-purple-100 text-purple-700';
+            case 'accepted': return 'bg-green-100 text-green-700';
+            case 'rejected': return 'bg-red-100 text-red-700';
+            default: return 'bg-blue-100 text-blue-700';
+        }
+    };
+
+    const getStatusLabel = () => {
+        if (!appliedJob) return 'Applied';
+
+        switch (appliedJob.applicationStatus) {
+            case 'applied': return 'Applied';
+            case 'viewed': return 'Viewed';
+            case 'interviewed': return 'Interviewed';
+            case 'accepted': return 'Accepted';
+            case 'rejected': return 'Rejected';
+            default: return 'Applied';
         }
     };
 
@@ -80,7 +117,7 @@ const JobCard = ({ job }: { job: Job }) => {
                         onClick={handleApply}
                         disabled={isApplying || isApplied}
                         className={`text-sm font-medium px-3 py-1 rounded transition-all duration-200 flex items-center gap-1 hover:scale-105 ${isApplied
-                            ? 'bg-green-100 text-green-700 cursor-default'
+                            ? `${getStatusColor()} cursor-default`
                             : showSuccess
                                 ? 'bg-green-500 text-white'
                                 : 'bg-blue-600 text-white hover:bg-blue-700'
@@ -91,14 +128,42 @@ const JobCard = ({ job }: { job: Job }) => {
                         ) : showSuccess || isApplied ? (
                             <>
                                 <HiCheck className="w-3 h-3" />
-                                Applied
+                                {getStatusLabel()}
                             </>
                         ) : (
                             'Apply'
                         )}
                     </button>
+
+                    {/* Status update button for applied jobs */}
+                    {isApplied && (
+                        <button
+                            onClick={() => setShowStatusModal(true)}
+                            className="text-xs text-gray-500 hover:text-gray-700 transition-colors p-1 rounded hover:bg-gray-100"
+                            title="Update application status"
+                        >
+                            <HiCog className="w-3 h-3" />
+                        </button>
+                    )}
                 </div>
             </div>
+
+            {/* Application Disclaimer Notification */}
+            <ApplicationDisclaimer
+                isVisible={showDisclaimer}
+                onClose={() => setShowDisclaimer(false)}
+                onUpdateStatus={handleUpdateStatus}
+                jobTitle={job.title}
+            />
+
+            {/* Application Status Modal */}
+            <ApplicationStatusModal
+                isOpen={showStatusModal}
+                onClose={() => setShowStatusModal(false)}
+                jobTitle={job.title}
+                applicationId={appliedJob?.id}
+                currentStatus={appliedJob?.applicationStatus}
+            />
         </div>
     );
 };
