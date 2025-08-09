@@ -90,11 +90,7 @@ const Navbar = () => {
                         className="flex items-center gap-3 text-blue-600 font-bold text-xl group"
                     >
                         <div className="relative">
-                            <img
-                                src="/src/assets/logo.png"
-                                alt="Opportuna Logo"
-                                className="h-10 w-auto transition-transform group-hover:scale-110"
-                            />
+
                             <div className="absolute inset-0 bg-blue-600/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300" />
                         </div>
                         <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
