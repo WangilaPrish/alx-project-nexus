@@ -1,4 +1,4 @@
-import { signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import {
@@ -133,24 +133,46 @@ const RegisterPage = () => {
         setError('');
 
         try {
-            const result = await authService.register({
-                name,
-                email,
-                password,
-                confirmPassword
+            // Create user with Firebase Authentication
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Update the user's display name
+            await updateProfile(user, {
+                displayName: name
             });
 
-            if (result.success) {
-                setSuccess('Registration successful! Redirecting...');
-                setTimeout(() => {
-                    navigate('/');
-                }, 1500);
-            } else {
-                setError(result.message || 'Registration failed. Please try again.');
-            }
-        } catch (err) {
+            setSuccess('Registration successful! Redirecting...');
+            setTimeout(() => {
+                navigate('/');
+            }, 1500);
+
+        } catch (err: any) {
             console.error('Registration error:', err);
-            setError('Registration failed. Please check your connection and try again.');
+            
+            // Handle specific Firebase errors
+            let errorMessage = 'Registration failed. Please try again.';
+            
+            if (err.code) {
+                switch (err.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = 'This email is already registered. Try logging in instead.';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = 'Password is too weak. Please choose a stronger password.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Please enter a valid email address.';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage = 'Network error. Please check your connection and try again.';
+                        break;
+                    default:
+                        errorMessage = err.message || 'Registration failed. Please try again.';
+                }
+            }
+            
+            setError(errorMessage);
         } finally {
             setIsLoading(false);
         }

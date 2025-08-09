@@ -1,4 +1,4 @@
-import { signInWithPopup } from 'firebase/auth';
+import { signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import {
@@ -18,7 +18,6 @@ import {
 import { HiShieldCheck } from 'react-icons/hi2';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth, provider } from '../firebase/firebaseConfig';
-import { authService } from '../services/authService';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -84,19 +83,38 @@ const LoginPage = () => {
         setError('');
 
         try {
-            const result = await authService.login({ email, password });
-
-            if (result.success) {
-                setSuccess('Login successful! Redirecting...');
-                setTimeout(() => {
-                    navigate('/');
-                }, 1500);
-            } else {
-                setError(result.message || 'Invalid email or password. Please try again.');
-            }
-        } catch (err) {
+            await signInWithEmailAndPassword(auth, email, password);
+            setSuccess('Login successful! Redirecting...');
+            setTimeout(() => {
+                navigate('/');
+            }, 1500);
+        } catch (err: any) {
             console.error('Login error:', err);
-            setError('Login failed. Please check your connection and try again.');
+            let errorMessage = 'Login failed. Please try again.';
+            
+            if (err.code) {
+                switch (err.code) {
+                    case 'auth/user-not-found':
+                        errorMessage = 'No account found with this email address.';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage = 'Incorrect password. Please try again.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Invalid email address.';
+                        break;
+                    case 'auth/user-disabled':
+                        errorMessage = 'This account has been disabled.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Too many failed attempts. Please try again later.';
+                        break;
+                    default:
+                        errorMessage = err.message || 'Login failed. Please try again.';
+                }
+            }
+            
+            setError(errorMessage);
         } finally {
             setIsLoading(false);
         }
@@ -111,38 +129,34 @@ const LoginPage = () => {
             const user = result.user;
 
             if (user) {
-                // Send user data to backend
-                const userData = {
-                    name: user.displayName || '',
-                    email: user.email || '',
-                    provider_id: user.uid,
-                    avatar: user.photoURL || ''
-                };
-
-                console.log('Sending user data to backend:', userData);
-                const authResult = await authService.googleAuth(userData);
-                console.log('Backend response:', authResult);
-
-                if (authResult.success) {
-                    setSuccess('Login successful! Redirecting...');
-                    setTimeout(() => {
-                        navigate('/');
-                    }, 1500);
-                } else {
-                    console.error('Google auth failed:', authResult);
-                    setError(authResult.message || 'Google login failed. Please try again.');
-                }
+                setSuccess('Login successful! Redirecting...');
+                setTimeout(() => {
+                    navigate('/');
+                }, 1500);
             } else {
                 setError('Google login failed. Please try again.');
             }
-        } catch (err) {
+        } catch (err: any) {
             console.error('Google login error:', err);
-            // More detailed error information
-            if (err && typeof err === 'object' && 'code' in err && 'message' in err) {
-                setError(`Google authentication failed: ${err.code} - ${err.message}`);
-            } else {
-                setError('Google login failed. Please try again.');
+            let errorMessage = 'Google login failed. Please try again.';
+            
+            if (err.code) {
+                switch (err.code) {
+                    case 'auth/popup-closed-by-user':
+                        errorMessage = 'Login was cancelled.';
+                        break;
+                    case 'auth/popup-blocked':
+                        errorMessage = 'Popup was blocked. Please allow popups and try again.';
+                        break;
+                    case 'auth/cancelled-popup-request':
+                        errorMessage = 'Login was cancelled.';
+                        break;
+                    default:
+                        errorMessage = err.message || 'Google login failed. Please try again.';
+                }
             }
+            
+            setError(errorMessage);
         } finally {
             setIsLoading(false);
         }
