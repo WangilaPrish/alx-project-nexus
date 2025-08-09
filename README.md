@@ -1,34 +1,26 @@
-# 🌟 Interactive Job Board Platform (Web)
+# 🌐 Job Board Platform
 
-An interactive and responsive job board platform built using React, Context API, and Tailwind CSS. This project allows users to browse, filter, and apply for jobs seamlessly on any device.
-
----
-
-## 🔍 Overview
-
-This web application simulates a real-world job board system. Users can:
-
-* Explore job listings dynamically fetched from an API
-* Filter jobs by category, location, and experience level
-* View detailed job descriptions
-* Submit job applications via an accessible and validated form
+A **React-based job board platform** that fetches and displays job listings from an external API.
+Built with **Framer Motion** for animations, **Tailwind CSS** for styling, and **Context API** for state management.
 
 ---
 
-## 🚀 Live Demo
-
-🔗 [View Deployed Site Here](https://your-vercel-link.com)
+## 🚀 Features
+- **Job Listings** – Fetch jobs from a free jobs API with filters and pagination.
+- **Pagination** – Navigate multiple pages of results.
+- **Search & Filters** – Filter by category, location, and experience level.
+- **Responsive Design** – Mobile-friendly UI built with Tailwind CSS.
+- **Animations** – Smooth UI interactions powered by Framer Motion.
 
 ---
 
-## 🧰 Technologies Used
-
-* **React** – Front-end JavaScript library
-* **Context API** – For managing global state
-* **Tailwind CSS** – For modern, responsive UI design
-* **Axios** – For fetching job data from the backend API
-* **React Router** – For navigating between pages
-* **Vercel** – For deployment
+## 🛠 Tech Stack
+- **Frontend**: [React](https://react.dev/) + [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **State Management**: React Context API
+- **API**: [Adzuna Jobs API](https://developer.adzuna.com/) / RapidAPI Job APIs
+- **Environment Variables**: `.env` for API keys
 
 ---
 
@@ -38,44 +30,33 @@ This web application simulates a real-world job board system. Users can:
 src/
 
 job-board-platform/
-├── public/
-│   └── favicon.ico
-│   └── index.html
-│
-├── src/
-│   ├── assets/                  # Static assets (images, icons, logos)
-│   │   └── logo.svg
-│
-│   ├── components/              # Reusable UI components
-│   │   ├── JobCard.jsx
-│   │   ├── FilterPanel.jsx
-│   │   ├── LoadingSpinner.jsx
-│   │   └── Navbar.jsx
-│
-│   ├── context/                 # Context API files
-│   │   └── JobContext.jsx
-│
-│   ├── pages/                   # Page-level components
-│   │   ├── Home.jsx             # Job listings + filters
-│   │   ├── JobDetails.jsx       # Single job detail page
-│   │   └── Apply.jsx            # Job application form
-│
-│   ├── services/                # API calls
-│   │   └── jobService.js
-│
-│   ├── styles/                  # Custom styles or Tailwind config extensions
-│   │   └── globals.css
-│
-│   ├── App.jsx                  # Main app component with routes
-│   └── main.jsx                 # Entry point
-│
-├── .env                         # Environment variables
-├── .gitignore
-├── index.html                   # Root HTML file for Vite
-├── package.json
-├── postcss.config.js
-├── tailwind.config.js
-└── vite.config.js               # Vite-specific config
+├── public/ # Static assets
+├── src/ # Source code
+│ ├── api/ # API call functions
+│ │ └── fetchJobs.ts # Fetch job listings from API
+│ ├── components/ # Reusable UI components
+│ │ ├── JobCard.tsx # Job listing card UI
+│ │ ├── Pagination.tsx # Pagination controls
+│ │ ├── SearchBar.tsx # Search input component
+│ │ └── Filters.tsx # Filter options UI
+│ ├── context/ # Global state management
+│ │ └── JobContext.tsx # Context for jobs, filters, pagination
+│ ├── pages/ # Page components
+│ │ ├── Home.tsx # Homepage
+│ │ ├── JobList.tsx # Jobs listing page
+│ │ └── JobDetails.tsx # Individual job details page
+│ ├── services/ # API integration helpers
+│ │ └── jobService.ts # Service to handle job data fetching
+│ ├── types/ # TypeScript types
+│ │ └── index.ts # Job type definitions
+│ ├── App.tsx # Main App component
+│ ├── main.tsx # React entry point
+│ └── index.css # Global styles (Tailwind CSS)
+├── .env # Environment variables (API keys)
+├── package.json # Dependencies and scripts
+├── tailwind.config.js # Tailwind CSS configuration
+├── vite.config.ts # Vite configuration
+└── README.md # Project documentation
 
 ```
 
@@ -138,18 +119,6 @@ The app should now be running at `http://localhost:5173` (if using Vite).
 * Fully responsive layout for desktop, tablet, and mobile
 * Uses semantic HTML, ARIA labels, and keyboard-accessible components
 
-### 📝 Job Application Form
-
-* Includes fields for:
-
-  * Name
-  * Email
-  * Resume upload (optional)
-  * Cover letter
-* Validates inputs before submission
-* Displays success or error feedback
-
----
 
 ## 🧠 State Management
 
