@@ -142,6 +142,23 @@ const RegisterPage = () => {
                 displayName: name
             });
 
+            // Also save user to MySQL database via backend API
+            try {
+                const backendResponse = await authService.register({
+                    name,
+                    email,
+                    password,
+                    confirmPassword
+                });
+
+                if (!backendResponse.success) {
+                    console.warn('Failed to save user to backend database:', backendResponse.message);
+                }
+            } catch (backendError) {
+                console.warn('Backend registration failed:', backendError);
+                // Continue even if backend fails, Firebase user is created
+            }
+
             setSuccess('Registration successful! Redirecting...');
             setTimeout(() => {
                 navigate('/');
@@ -149,10 +166,10 @@ const RegisterPage = () => {
 
         } catch (err: any) {
             console.error('Registration error:', err);
-            
+
             // Handle specific Firebase errors
             let errorMessage = 'Registration failed. Please try again.';
-            
+
             if (err.code) {
                 switch (err.code) {
                     case 'auth/email-already-in-use':
@@ -167,11 +184,14 @@ const RegisterPage = () => {
                     case 'auth/network-request-failed':
                         errorMessage = 'Network error. Please check your connection and try again.';
                         break;
+                    case 'auth/operation-not-allowed':
+                        errorMessage = 'Email/password registration is not enabled. Please contact support or use Google sign-in.';
+                        break;
                     default:
                         errorMessage = err.message || 'Registration failed. Please try again.';
                 }
             }
-            
+
             setError(errorMessage);
         } finally {
             setIsLoading(false);

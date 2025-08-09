@@ -255,5 +255,86 @@ export const authService = {
                 message: 'Logged out successfully.'
             };
         }
+    },
+
+    // Sync Firebase user to MySQL database
+    syncFirebaseUser: async (userData: {
+        name: string;
+        email: string;
+        firebaseUid: string;
+        provider?: string;
+    }) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/sync-firebase-user`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData)
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                authService.setToken(data.data.token);
+                authService.setUser(data.data.user);
+            }
+
+            return data;
+        } catch (error) {
+            console.error('Sync Firebase user error:', error);
+            return {
+                success: false,
+                message: 'Network error. Please check your connection and try again.'
+            };
+        }
+    },
+
+    // Delete user from both Firebase and MySQL database
+    deleteUser: async (email: string) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/delete-user`, {
+                method: 'DELETE',
+                headers: authService.getAuthHeaders(),
+                body: JSON.stringify({ email })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Clear local storage after successful deletion
+                authService.removeToken();
+            }
+
+            return data;
+        } catch (error) {
+            console.error('Delete user error:', error);
+            return {
+                success: false,
+                message: 'Network error. Please check your connection and try again.'
+            };
+        }
+    },
+
+    // Delete user from MySQL database only (when user is already deleted from Firebase)
+    deleteUserFromDatabase: async (email: string) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/delete-user-db`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email })
+            });
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Delete user from database error:', error);
+            return {
+                success: false,
+                message: 'Network error. Please check your connection and try again.'
+            };
+        }
     }
 };

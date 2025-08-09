@@ -1,4 +1,4 @@
-import { signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import {
@@ -91,7 +91,7 @@ const LoginPage = () => {
         } catch (err: any) {
             console.error('Login error:', err);
             let errorMessage = 'Login failed. Please try again.';
-            
+
             if (err.code) {
                 switch (err.code) {
                     case 'auth/user-not-found':
@@ -109,11 +109,14 @@ const LoginPage = () => {
                     case 'auth/too-many-requests':
                         errorMessage = 'Too many failed attempts. Please try again later.';
                         break;
+                    case 'auth/operation-not-allowed':
+                        errorMessage = 'Email/password sign-in is not enabled. Please contact support or use Google sign-in.';
+                        break;
                     default:
                         errorMessage = err.message || 'Login failed. Please try again.';
                 }
             }
-            
+
             setError(errorMessage);
         } finally {
             setIsLoading(false);
@@ -139,7 +142,7 @@ const LoginPage = () => {
         } catch (err: any) {
             console.error('Google login error:', err);
             let errorMessage = 'Google login failed. Please try again.';
-            
+
             if (err.code) {
                 switch (err.code) {
                     case 'auth/popup-closed-by-user':
@@ -155,7 +158,7 @@ const LoginPage = () => {
                         errorMessage = err.message || 'Google login failed. Please try again.';
                 }
             }
-            
+
             setError(errorMessage);
         } finally {
             setIsLoading(false);
