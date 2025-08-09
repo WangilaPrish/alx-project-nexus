@@ -3,7 +3,6 @@ import {
     HiArrowRight,
     HiBriefcase,
     HiLocationMarker,
-    HiPlay,
     HiSearch,
     HiSparkles,
     HiTrendingUp,
