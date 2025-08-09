@@ -144,6 +144,7 @@ const RegisterPage = () => {
 
             // Also save user to MySQL database via backend API
             try {
+                console.log('Attempting to save user to backend database...', { name, email });
                 const backendResponse = await authService.register({
                     name,
                     email,
@@ -151,11 +152,19 @@ const RegisterPage = () => {
                     confirmPassword
                 });
 
-                if (!backendResponse.success) {
-                    console.warn('Failed to save user to backend database:', backendResponse.message);
+                console.log('Backend response:', backendResponse);
+
+                if (backendResponse.success) {
+                    console.log('✅ User successfully saved to database');
+                } else {
+                    console.warn('❌ Failed to save user to backend database:', backendResponse.message);
+                    // You could show this to the user as a warning
+                    setError(`Warning: ${backendResponse.message || 'Failed to save to database'}`);
                 }
-            } catch (backendError) {
-                console.warn('Backend registration failed:', backendError);
+            } catch (backendError: any) {
+                console.error('❌ Backend registration failed:', backendError);
+                // Show this error to the user
+                setError(`Database error: ${backendError.message || 'Could not connect to database'}`);
                 // Continue even if backend fails, Firebase user is created
             }
 

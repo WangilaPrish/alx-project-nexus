@@ -5,7 +5,7 @@ async function cleanupUserFromDatabase(email = 'maxymandie@gmail.com') {
     try {
         console.log(`Attempting to delete user ${email} from database...`);
 
-        const response = await fetch('http://localhost:5000/api/auth/delete-user-db', {
+        const response = await fetch('http://localhost:5001/api/auth/delete-user-db', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ async function cleanupUserFromDatabase(email = 'maxymandie@gmail.com') {
         console.error('❌ Error:', error.message);
 
         if (error.message.includes('fetch')) {
-            console.log('💡 Make sure your backend server is running on http://localhost:5000');
+            console.log('💡 Make sure your backend server is running on http://localhost:5001');
         }
 
         return {

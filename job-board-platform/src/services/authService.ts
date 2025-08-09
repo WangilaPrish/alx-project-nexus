@@ -10,7 +10,7 @@ interface User {
 }
 
 // API Base URL
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'http://localhost:5002/api';
 
 // Auth API endpoints
 const AUTH_ENDPOINTS = {
@@ -81,6 +81,9 @@ export const authService = {
         confirmPassword: string;
     }) => {
         try {
+            console.log('🚀 Making registration request to:', AUTH_ENDPOINTS.REGISTER);
+            console.log('📦 Request data:', { ...userData, password: '[HIDDEN]', confirmPassword: '[HIDDEN]' });
+
             const response = await fetch(AUTH_ENDPOINTS.REGISTER, {
                 method: 'POST',
                 headers: {
@@ -89,7 +92,11 @@ export const authService = {
                 body: JSON.stringify(userData)
             });
 
+            console.log('📡 Response status:', response.status, response.statusText);
+            console.log('📄 Response headers:', Object.fromEntries(response.headers.entries()));
+
             const data = await response.json();
+            console.log('📋 Response data:', data);
 
             if (data.success) {
                 authService.setToken(data.data.token);

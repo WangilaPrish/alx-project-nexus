@@ -44,8 +44,8 @@ class User {
                 this.email,
                 hashedPassword,
                 this.provider,
-                this.provider_id,
-                this.avatar,
+                this.provider_id || null,
+                this.avatar || null,
                 this.is_verified,
                 this.is_active
             ];
