@@ -143,6 +143,7 @@ const RegisterPage = () => {
             });
 
             // Also save user to MySQL database via backend API
+            let backendWarning = '';
             try {
                 console.log('Attempting to save user to backend database...', { name, email });
                 const backendResponse = await authService.register({
@@ -158,17 +159,20 @@ const RegisterPage = () => {
                     console.log('✅ User successfully saved to database');
                 } else {
                     console.warn('❌ Failed to save user to backend database:', backendResponse.message);
-                    // You could show this to the user as a warning
-                    setError(`Warning: ${backendResponse.message || 'Failed to save to database'}`);
+                    backendWarning = 'Warning: User created but not saved to database.';
                 }
             } catch (backendError: any) {
                 console.error('❌ Backend registration failed:', backendError);
-                // Show this error to the user
-                setError(`Database error: ${backendError.message || 'Could not connect to database'}`);
-                // Continue even if backend fails, Firebase user is created
+                backendWarning = 'Warning: User created but database connection failed.';
             }
 
-            setSuccess('Registration successful! Redirecting...');
+            // Always show success if Firebase registration worked
+            if (backendWarning) {
+                setSuccess(`Registration successful! ${backendWarning} Redirecting...`);
+            } else {
+                setSuccess('Registration successful! Redirecting...');
+            }
+
             setTimeout(() => {
                 navigate('/');
             }, 1500);
@@ -230,13 +234,15 @@ const RegisterPage = () => {
 
                 if (authResult.success) {
                     setSuccess('Registration successful! Redirecting...');
-                    setTimeout(() => {
-                        navigate('/');
-                    }, 1500);
                 } else {
-                    console.error('Google auth failed:', authResult);
-                    setError(authResult.message || 'Google registration failed. Please try again.');
+                    // Google auth worked but backend failed - still show success with warning
+                    console.warn('Google auth failed:', authResult);
+                    setSuccess('Registration successful! (Database sync pending) Redirecting...');
                 }
+
+                setTimeout(() => {
+                    navigate('/');
+                }, 1500);
             } else {
                 setError('Registration failed. Please try again.');
             }

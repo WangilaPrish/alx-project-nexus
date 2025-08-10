@@ -57,7 +57,7 @@ export const userCleanup = {
      */
     getOrphanedUsers: async () => {
         try {
-            const response = await fetch(`${authService.getAuthHeaders().baseURL || 'http://localhost:5001/api'}/auth/orphaned-users`, {
+            const response = await fetch(`${authService.getAuthHeaders().baseURL || 'http://localhost:5003/api'}/auth/orphaned-users`, {
                 headers: authService.getAuthHeaders()
             });
 
