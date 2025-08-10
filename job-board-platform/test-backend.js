@@ -2,7 +2,7 @@
 // Run this in browser console to test if backend is responding
 
 async function testBackendConnection() {
-    const baseURL = 'http://localhost:5003/api';
+    const baseURL = 'http://localhost:5004/api';
 
     console.log('🧪 Testing backend connection...');
 
