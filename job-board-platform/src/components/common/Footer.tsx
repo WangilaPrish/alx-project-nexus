@@ -109,10 +109,7 @@ const Footer = () => {
                         <div className="mb-6">
                             <Link to="/" className="flex items-center gap-3 mb-4 group">
                                 <div className="relative">
-                                    <img
-                                        src="/src/assets/logo.png"
-                                        className="h-10 w-auto brightness-0 invert transition-transform group-hover:scale-110"
-                                    />
+
                                     <div className="absolute inset-0 bg-blue-400/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300" />
                                 </div>
                                 <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
