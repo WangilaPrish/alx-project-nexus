@@ -111,7 +111,6 @@ const Footer = () => {
                                 <div className="relative">
                                     <img
                                         src="/src/assets/logo.png"
-                                        alt="Opportuna Logo"
                                         className="h-10 w-auto brightness-0 invert transition-transform group-hover:scale-110"
                                     />
                                     <div className="absolute inset-0 bg-blue-400/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300" />
@@ -240,8 +239,8 @@ const Footer = () => {
                                 whileHover={{ scale: isSubscribed ? 1 : 1.02 }}
                                 whileTap={{ scale: isSubscribed ? 1 : 0.98 }}
                                 className={`w-full py-3 px-4 rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2 ${isSubscribed
-                                        ? 'bg-green-500 text-white cursor-default'
-                                        : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl'
+                                    ? 'bg-green-500 text-white cursor-default'
+                                    : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl'
                                     }`}
                             >
                                 {isSubmitting ? (
