@@ -143,7 +143,6 @@ const RegisterPage = () => {
             });
 
             // Also save user to MySQL database via backend API
-            let backendWarning = '';
             try {
                 console.log('Attempting to save user to backend database...', { name, email });
                 const backendResponse = await authService.register({
@@ -159,24 +158,17 @@ const RegisterPage = () => {
                     console.log('✅ User successfully saved to database');
                 } else {
                     console.warn('❌ Failed to save user to backend database:', backendResponse.message);
-                    backendWarning = 'Warning: User created but not saved to database.';
                 }
             } catch (backendError: any) {
                 console.error('❌ Backend registration failed:', backendError);
-                backendWarning = 'Warning: User created but database connection failed.';
             }
 
             // Always show success if Firebase registration worked
-            if (backendWarning) {
-                setSuccess(`Registration successful! ${backendWarning} Redirecting...`);
-            } else {
-                setSuccess('Registration successful! Redirecting...');
-            }
+            setSuccess('Welcome! Taking you to your dashboard...');
 
             setTimeout(() => {
                 navigate('/');
             }, 1500);
-
         } catch (err: any) {
             console.error('Registration error:', err);
 
@@ -233,11 +225,11 @@ const RegisterPage = () => {
                 console.log('Backend response:', authResult);
 
                 if (authResult.success) {
-                    setSuccess('Registration successful! Redirecting...');
+                    setSuccess('Welcome! Taking you to your dashboard...');
                 } else {
-                    // Google auth worked but backend failed - still show success with warning
+                    // Google auth worked but backend failed - still show success
                     console.warn('Google auth failed:', authResult);
-                    setSuccess('Registration successful! (Database sync pending) Redirecting...');
+                    setSuccess('Welcome! Taking you to your dashboard...');
                 }
 
                 setTimeout(() => {
