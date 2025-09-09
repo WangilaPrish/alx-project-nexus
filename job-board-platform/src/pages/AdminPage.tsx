@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { fetchJobs } from '../services/jobService';
+import type { Job } from '../types';
 
 interface User {
     id: number;
@@ -15,6 +17,9 @@ const AdminPage: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [jobs, setJobs] = useState<Job[]>([]);
+    const [jobsLoading, setJobsLoading] = useState(true);
+    const [jobsError, setJobsError] = useState('');
 
     useEffect(() => {
         async function fetchUsers() {
@@ -35,6 +40,22 @@ const AdminPage: React.FC = () => {
             }
         }
         fetchUsers();
+    }, []);
+
+    useEffect(() => {
+        async function fetchAllJobs() {
+            setJobsLoading(true);
+            setJobsError('');
+            try {
+                const jobsData = await fetchJobs();
+                setJobs(jobsData);
+            } catch (err) {
+                setJobsError('Failed to fetch jobs.');
+            } finally {
+                setJobsLoading(false);
+            }
+        }
+        fetchAllJobs();
     }, []);
 
     return (
@@ -85,7 +106,36 @@ const AdminPage: React.FC = () => {
                 <section className="mb-8">
                     <h2 className="text-xl font-semibold mb-2">Job Management</h2>
                     <p className="text-gray-600 mb-4">View, edit, and delete job postings.</p>
-                    {/* TODO: Add job table/list here */}
+                    {jobsLoading ? (
+                        <div>Loading jobs...</div>
+                    ) : jobsError ? (
+                        <div className="text-red-500">{jobsError}</div>
+                    ) : (
+                        <table className="w-full border rounded shadow text-sm">
+                            <thead>
+                                <tr className="bg-gray-100">
+                                    <th className="p-2">ID</th>
+                                    <th className="p-2">Title</th>
+                                    <th className="p-2">Company</th>
+                                    <th className="p-2">Location</th>
+                                    <th className="p-2">Type</th>
+                                    <th className="p-2">Posted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {jobs.map(job => (
+                                    <tr key={job.id} className="border-t">
+                                        <td className="p-2">{job.id}</td>
+                                        <td className="p-2">{job.title}</td>
+                                        <td className="p-2">{job.company}</td>
+                                        <td className="p-2">{job.location}</td>
+                                        <td className="p-2">{job.type}</td>
+                                        <td className="p-2">{job.postedAt || '-'}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
                 </section>
                 <section>
                     <h2 className="text-xl font-semibold mb-2">Admin Actions</h2>
