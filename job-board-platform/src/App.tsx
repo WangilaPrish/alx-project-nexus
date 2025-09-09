@@ -1,10 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
 import Home from '../src/pages/Home';
+import AdminPage from './pages/AdminPage';
 import AppliedJobsPage from './pages/AppliedJobsPage';
 import JobsPage from './pages/JobsPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import AdminPage from './pages/AdminPage';
 //import JobDetails from './pages/JobDetails';
 //import Apply from './pages/Apply';
 
